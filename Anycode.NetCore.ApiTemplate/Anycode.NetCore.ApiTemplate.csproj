@@ -1,0 +1,62 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <ErrorOnDuplicatePublishOutputFiles>false</ErrorOnDuplicatePublishOutputFiles>
+        <LangVersion>default</LangVersion>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <NoWarn>$(NoWarn);1591</NoWarn>
+        <IsPackable>false</IsPackable>
+        <InterceptorsNamespaces>$(InterceptorsNamespaces);Microsoft.AspNetCore.OpenApi.Generated</InterceptorsNamespaces>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Scalar.AspNetCore" Version="2.13.0"/>
+        <PackageReference Include="Scalar.AspNetCore.Microsoft" Version="2.13.0"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Anycode.NetCore.DatabaseTemplate\Anycode.NetCore.DatabaseTemplate.csproj"/>
+        <ProjectReference Include="..\Anycode.NetCore.Shared\Anycode.NetCore.Shared.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Compile Update="Endpoints\Auth\RegisterRequest.cs">
+            <DependentUpon>RegisterUser.cs</DependentUpon>
+        </Compile>
+        <Compile Update="Endpoints\Auth\AuthRequest.cs">
+            <DependentUpon>LogInUser.cs</DependentUpon>
+        </Compile>
+        <Compile Update="Endpoints\Auth\ChangePasswordRequest.cs">
+            <DependentUpon>ChangePassword.cs</DependentUpon>
+        </Compile>
+        <Compile Update="Endpoints\Test\TestRequest.cs">
+            <DependentUpon>TestOpenApiEndpoint.cs</DependentUpon>
+        </Compile>
+        <Compile Update="Endpoints\Test\TestResponse.cs">
+            <DependentUpon>TestOpenApiEndpoint.cs</DependentUpon>
+        </Compile>
+        <Compile Update="Endpoints\Test\TestResponse2.cs">
+            <DependentUpon>TestOpenApiEndpoint2.cs</DependentUpon>
+        </Compile>
+        <Compile Update="Endpoints\User\UserRolesResponse.cs">
+            <DependentUpon>GetUserRoles.cs</DependentUpon>
+        </Compile>
+        <Compile Update="Endpoints\App\PermissionsResponse.cs">
+            <DependentUpon>GetAllPermissions.cs</DependentUpon>
+        </Compile>
+        <Compile Update="Endpoints\App\RolesResponse.cs">
+            <DependentUpon>GetAllRoles.cs</DependentUpon>
+        </Compile>
+        <Compile Update="Endpoints\Auth\ResetPasswordRequest.cs">
+            <DependentUpon>ResetPassword.cs</DependentUpon>
+        </Compile>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Folder Include="wwwroot\"/>
+    </ItemGroup>
+
+</Project>

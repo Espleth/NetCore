@@ -1,0 +1,1 @@
+Ideally health checker should work with its own DB, but for now it requires PG with "Configuration" table, check ConfigurationEntity for details.

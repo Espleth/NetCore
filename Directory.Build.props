@@ -1,0 +1,11 @@
+<Project>
+    <PropertyGroup>
+        <Authors>Anycode</Authors>
+        <Company>Anycode</Company>
+        <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+        <PackageProjectUrl>https://github.com/Espleth/NetCore</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/Espleth/NetCore</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <Copyright>Copyright (c) Anycode</Copyright>
+    </PropertyGroup>
+</Project>
