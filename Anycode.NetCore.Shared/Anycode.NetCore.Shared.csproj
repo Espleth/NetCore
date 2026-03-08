@@ -44,4 +44,16 @@
         <ProjectReference Include="..\Anycode.NetCore.DbTools\Anycode.NetCore.DbTools.csproj"/>
     </ItemGroup>
 
+    <ItemGroup>
+      <None Update="Config\crawler-user-agents.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="Config\nlog.config">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="Config\nlog.common.config">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
 </Project>
