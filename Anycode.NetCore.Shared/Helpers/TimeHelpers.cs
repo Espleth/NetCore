@@ -7,47 +7,46 @@ public static class TimeHelpers
 		public static DateTimeOffset UtcCurrentMonth => new(DateTimeOffset.UtcNow.Year, DateTimeOffset.UtcNow.Month, 1, 0, 0, 0, TimeSpan.Zero);
 	}
 
-	extension(DateTimeOffset dateTimeOffset)
+	extension(DateTimeOffset dto)
 	{
 		public string ToUtcIsoWithoutMs()
 		{
-			return dateTimeOffset.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ssZ");
+			return dto.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ssZ");
 		}
 
 		public DateTimeOffset MonthStart()
 		{
-			return new DateTimeOffset(dateTimeOffset.Year, dateTimeOffset.Month, 1, 0, 0, 0, dateTimeOffset.Offset);
+			return new DateTimeOffset(dto.Year, dto.Month, 1, 0, 0, 0, dto.Offset);
 		}
 
 		public DateTimeOffset ToMinuteStart()
 		{
-			return new DateTimeOffset(dateTimeOffset.Year, dateTimeOffset.Month, dateTimeOffset.Day, dateTimeOffset.Hour, dateTimeOffset.Minute, 0,
-				dateTimeOffset.Offset);
+			return new DateTimeOffset(dto.Year, dto.Month, dto.Day, dto.Hour, dto.Minute, 0, dto.Offset);
 		}
 
 		public DateTimeOffset ToDayStart()
 		{
-			return new DateTimeOffset(dateTimeOffset.Year, dateTimeOffset.Month, dateTimeOffset.Day, 0, 0, 0, dateTimeOffset.Offset);
+			return new DateTimeOffset(dto.Year, dto.Month, dto.Day, 0, 0, 0, dto.Offset);
 		}
 
 		public DateOnly ToDateOnly()
 		{
-			return DateOnly.FromDateTime(dateTimeOffset.Date);
+			return DateOnly.FromDateTime(dto.Date);
 		}
 
 		public TimeOnly ToTimeOnly()
 		{
-			return TimeOnly.FromDateTime(dateTimeOffset.UtcDateTime);
+			return TimeOnly.FromDateTime(dto.UtcDateTime);
 		}
 
 		public DateTimeOffset Date()
 		{
-			return new DateTimeOffset(dateTimeOffset.Year, dateTimeOffset.Month, dateTimeOffset.Day, 0, 0, 0, TimeSpan.Zero);
+			return new DateTimeOffset(dto.Year, dto.Month, dto.Day, 0, 0, 0, TimeSpan.Zero);
 		}
 
 		public DateTimeOffset ToDateTimeOffset(TimeOnly time)
 		{
-			return new DateTimeOffset(dateTimeOffset.Year, dateTimeOffset.Month, dateTimeOffset.Day, time.Hour, time.Minute, time.Second, dateTimeOffset.Offset);
+			return new DateTimeOffset(dto.Year, dto.Month, dto.Day, time.Hour, time.Minute, time.Second, dto.Offset);
 		}
 	}
 
@@ -62,8 +61,13 @@ public static class TimeHelpers
 		{
 			return new DateTimeOffset(date, time, TimeSpan.Zero);
 		}
+
+		public DateTime ToDateTime()
+		{
+			return new DateTime(date.Year, date.Month, date.Day, 0, 0, 0, DateTimeKind.Utc);
+		}
 	}
-	
+
 	extension(DateOnly)
 	{
 		public static DateOnly UtcToday => DateOnly.FromDateTime(DateTime.UtcNow.Date);

@@ -1,6 +1,4 @@
-﻿using Npgsql.EntityFrameworkCore.PostgreSQL.Infrastructure;
-
-namespace Anycode.NetCore.DbTools.Extensions;
+﻿namespace Anycode.NetCore.DbTools.Extensions;
 
 public static class DbExtensions
 {
