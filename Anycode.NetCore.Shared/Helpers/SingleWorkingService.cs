@@ -1,5 +1,6 @@
 ﻿namespace Anycode.NetCore.Shared.Helpers;
 
+[SuppressMessage("ReSharper", "InconsistentlySynchronizedField")]
 public class SingleWorkingService
 {
 	private volatile bool _isWorking;

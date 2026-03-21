@@ -8,6 +8,9 @@ public static class LoggingExtensions
 	// This will work only per argument and only if the argument is a string, so this might still not work for some cases
 	private const int MaxArgumentLength = 100000;
 
+	// ReSharper disable once ConvertToExtensionBlock
+	// For whatever reason, when converting to extension block, log code start to produce CS8620 warning on build
+
 	public static void Trace(this ILogger log, [StructuredMessageTemplate] string? message, params object?[] args)
 	{
 		log.LogInternal(LogLevel.Trace, LogLevel.Trace, MaxArgumentLength, null, message, args);
@@ -79,8 +82,8 @@ public static class LoggingExtensions
 		log.LogInternal(logLevel, minLevel, maxArgLength, null, message, args);
 	}
 
-	public static void Log(this ILogger log, LogLevel logLevel, LogLevel minLevel, Exception? exception,
-		[StructuredMessageTemplate] string? message, params object?[] args)
+	public static void Log(this ILogger log, LogLevel logLevel, LogLevel minLevel, Exception? exception, [StructuredMessageTemplate] string? message,
+		params object?[] args)
 	{
 		log.LogInternal(logLevel, minLevel, MaxArgumentLength, exception, message, args);
 	}
