@@ -23,4 +23,10 @@ namespace Anycode.NetCore.DbTools.Extensions;
 	public static TAttribute Get<TEnum>(TEnum status) where TEnum : struct, Enum
 		=> Cache<TEnum>.Instance.GetValueOrDefault(status)
 		   ?? throw new InvalidOperationException($"{status} has no {typeof(TAttribute).Name} attribute.");
+
+	public static FrozenSet<TEnum> GetValues<TEnum>(Func<TAttribute, bool> predicate) where TEnum : struct, Enum
+		=> Cache<TEnum>.Instance
+			.Where(x => x.Value is not null && predicate(x.Value))
+			.Select(x => x.Key)
+			.ToFrozenSet();
 }

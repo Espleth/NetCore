@@ -19,5 +19,5 @@ public static class DefaultValidation
 	public const int MaxSearchLength = 30;
 
 	// Paging
-	public const int MaxTake = 100;
+	public const int MaxTake = 1000; // TODO remove temp increase
 }

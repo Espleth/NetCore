@@ -15,6 +15,7 @@ public static class StartupHelper
 
 		var builder = WebApplication.CreateBuilder(args);
 		builder.Configuration.AddJsonFile($"Config{Path.DirectorySeparatorChar}appsettings.{environment}.json", false);
+		log.Info("Application environment: {Environment}", environment);
 		builder.WebHost.UseKestrel();
 		builder.Logging.ClearProviders();
 		builder.Logging.AddNLogWeb();
