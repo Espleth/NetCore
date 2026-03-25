@@ -1,0 +1,39 @@
+[*.cs]
+
+# CA1069: Enums should not have duplicate values
+dotnet_diagnostic.CA1069.severity = error
+
+# --- Bug prevention ---
+
+# CA2016: Forward CancellationToken to methods that accept it
+dotnet_diagnostic.CA2016.severity = warning
+
+# CA2245: Do not assign a property to itself
+dotnet_diagnostic.CA2245.severity = error
+
+# CA2246: Do not assign a symbol and its member in the same statement
+dotnet_diagnostic.CA2246.severity = error
+
+# --- Performance ---
+
+# CA1825: Avoid zero-length array allocations (use Array.Empty<T>())
+dotnet_diagnostic.CA1825.severity = warning
+
+# CA1822: Mark members as static when they don't access instance data
+dotnet_diagnostic.CA1822.severity = suggestion
+
+# CA1854: Prefer TryGetValue over ContainsKey + indexer
+dotnet_diagnostic.CA1854.severity = warning
+
+# CA1862: Use StringComparison overloads instead of ToLower()/ToUpper()
+dotnet_diagnostic.CA1862.severity = warning
+
+# --- Logging ---
+
+# CA2254: Log message template should be a static expression
+dotnet_diagnostic.CA2254.severity = warning
+
+# --- Security ---
+
+# CA2100: Review SQL queries for security vulnerabilities
+dotnet_diagnostic.CA2100.severity = warning
