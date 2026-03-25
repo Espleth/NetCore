@@ -116,6 +116,7 @@ public static class IdsGenerator
 			CheckDigitType.None => true,
 			CheckDigitType.Luhn => ValidateLuhn(number),
 			CheckDigitType.UpuS10 => ValidateMod11(number),
+			CheckDigitType.Damm => ValidateDamm(number),
 			_ => throw new ArgumentOutOfRangeException(nameof(checkDigitType), checkDigitType, null)
 		};
 	}
