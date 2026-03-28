@@ -170,6 +170,17 @@ void ConfigureApplication()
 
 	app.UseHealthChecksExt();
 
-	app.MapOpenApi();
-	app.MapScalarApiReference();
+	var envConfig = app.Services.GetRequiredService<EnvironmentConfig>();
+	if (envConfig.OpenApiRoutePrefix == null)
+	{
+		app.MapOpenApi();
+		app.MapScalarApiReference();
+	}
+	else
+	{
+		// ReSharper disable once RouteTemplates.SyntaxError
+		app.MapOpenApi($"/{envConfig.OpenApiRoutePrefix}/openapi/{{documentName}}.json");
+		app.MapScalarApiReference(envConfig.OpenApiRoutePrefix,
+			options => { options.OpenApiRoutePattern = $"/{envConfig.OpenApiRoutePrefix}/openapi/{{documentName}}.json"; });
+	}
 }
