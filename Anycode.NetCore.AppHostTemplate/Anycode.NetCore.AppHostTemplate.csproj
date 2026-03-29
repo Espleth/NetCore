@@ -1,0 +1,24 @@
+<Project Sdk="Aspire.AppHost.Sdk/13.2.0">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <UserSecretsId>a55ba25f-0938-42d7-b99a-c647c3333b99</UserSecretsId>
+    <LangVersion>default</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Aspire.Hosting.PostgreSQL" Version="13.2.0" />
+    <PackageReference Include="Aspire.Hosting.RabbitMQ" Version="13.2.0" />
+    <PackageReference Include="Aspire.Hosting.Redis" Version="13.2.0" />
+    <PackageReference Include="Aspire.Hosting.Seq" Version="13.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Anycode.NetCore.ApiTemplate\Anycode.NetCore.ApiTemplate.csproj" />
+    <ProjectReference Include="..\Anycode.NetCore.MigrationServiceTemplate\Anycode.NetCore.MigrationServiceTemplate.csproj" />
+  </ItemGroup>
+
+</Project>

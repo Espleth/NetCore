@@ -1,6 +1,6 @@
 namespace Anycode.NetCore.Shared.Configuration;
 
-public class LoggingConfig
+public record LoggingConfig
 {
 	public required bool LogApiRequests { get; init; }
 

@@ -1,7 +1,9 @@
-﻿<Solution>
-    <Project Path="Anycode.NetCore.ApiTemplate/Anycode.NetCore.ApiTemplate.csproj" Type="C#" />
-    <Project Path="Anycode.NetCore.DatabaseTemplate/Anycode.NetCore.DatabaseTemplate.csproj" Type="C#" />
-    <Project Path="Anycode.NetCore.DbTools/Anycode.NetCore.DbTools.csproj" Type="C#" />
-    <Project Path="Anycode.NetCore.HealthChecker/Anycode.NetCore.HealthChecker.csproj" Type="C#" />
-    <Project Path="Anycode.NetCore.Shared/Anycode.NetCore.Shared.csproj" Type="C#" />
+<Solution>
+    <Project Path="Anycode.NetCore.ApiTemplate/Anycode.NetCore.ApiTemplate.csproj" />
+    <Project Path="Anycode.NetCore.AppHostTemplate/Anycode.NetCore.AppHostTemplate.csproj" />
+    <Project Path="Anycode.NetCore.DatabaseTemplate/Anycode.NetCore.DatabaseTemplate.csproj" />
+    <Project Path="Anycode.NetCore.DbTools/Anycode.NetCore.DbTools.csproj" />
+    <Project Path="Anycode.NetCore.HealthChecker/Anycode.NetCore.HealthChecker.csproj" />
+    <Project Path="Anycode.NetCore.MigrationServiceTemplate/Anycode.NetCore.MigrationServiceTemplate.csproj" />
+    <Project Path="Anycode.NetCore.Shared/Anycode.NetCore.Shared.csproj" />
 </Solution>

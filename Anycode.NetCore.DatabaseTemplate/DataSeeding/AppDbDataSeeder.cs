@@ -2,12 +2,13 @@ namespace Anycode.NetCore.DatabaseTemplate.DataSeeding;
 
 public class AppDbDataSeeder
 {
-	public static void SeedData(AppDbContext db)
+	public static void SeedData(AppDbContext db, ILogger logger)
 	{
-		Console.WriteLine("Seeding data to the DB...");
+		logger.LogInformation("Seeding data to the DB...");
 		db.Configuration.SetAsync("DbSeedingDate", DateTimeOffset.UtcNow).Wait();
-		AppDbCommonDataSeeder.SeedData(db);
-		AppDbTranslationsSeeder.SeedData(db);
+		AppDbCommonDataSeeder.SeedData(db, logger);
+		AppDbTranslationsSeeder.SeedData(db, logger);
 		db.SaveChanges();
+		logger.LogInformation("Database seed completed successfully");
 	}
 }

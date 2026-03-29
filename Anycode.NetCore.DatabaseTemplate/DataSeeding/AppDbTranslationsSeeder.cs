@@ -7,12 +7,14 @@ public class AppDbTranslationsSeeder
 {
 	private static readonly DateTimeOffset _createdAt = DateTimeOffset.UtcNow;
 
-	public static void SeedData(AppDbContext db)
+	public static void SeedData(AppDbContext db, ILogger logger)
 	{
+		using var stream = OpenTranslationsStream(logger);
+
 		var textEntities = new List<TextEntity>();
 		var translationEntities = new Dictionary<string, List<TranslationEntity>>();
 
-		using var reader = new StreamReader("Data/translations.csv");
+		using var reader = new StreamReader(stream);
 		using var csv = new CsvReader(reader, new CsvConfiguration(CultureInfo.InvariantCulture)
 		{
 			HasHeaderRecord = true,
@@ -64,6 +66,48 @@ public class AppDbTranslationsSeeder
 			else
 				db.Translations.Add(translation);
 		}
+
+		logger.LogInformation("Translations prepared: {TextsCount} texts, {TranslationsCount} translations",
+			textEntities.Count, translationEntities.Sum(x => x.Value.Count));
+	}
+
+	private static Stream OpenTranslationsStream(ILogger logger)
+	{
+		const string translationsFileName = "translations.csv";
+
+		var fileCandidates = new[]
+		{
+			Path.Combine(Directory.GetCurrentDirectory(), "Data", translationsFileName),
+			Path.Combine(AppContext.BaseDirectory, "Data", translationsFileName),
+		};
+
+		var filePath = fileCandidates.FirstOrDefault(File.Exists);
+		if (filePath != null)
+		{
+			logger.LogInformation("Seeding translations from file: {TranslationsPath}", filePath);
+			return File.OpenRead(filePath);
+		}
+
+		var assembly = typeof(AppDbTranslationsSeeder).Assembly;
+		var resourceNames = assembly.GetManifestResourceNames()
+			.Where(name => name.EndsWith($".Data.{translationsFileName}", StringComparison.OrdinalIgnoreCase)
+				|| name.EndsWith($".{translationsFileName}", StringComparison.OrdinalIgnoreCase))
+			.ToArray();
+
+		if (resourceNames.Length == 1)
+		{
+			var resourceName = resourceNames[0];
+			var resourceStream = assembly.GetManifestResourceStream(resourceName)!;
+			logger.LogInformation("Seeding translations from embedded resource: {ResourceName}", resourceName);
+			return resourceStream;
+		}
+
+		if (resourceNames.Length > 1)
+			throw new InvalidOperationException(
+				$"Multiple embedded resources matched '{translationsFileName}': {string.Join(", ", resourceNames)}.");
+
+		throw new FileNotFoundException(
+			$"Could not resolve '{translationsFileName}'. Looked in: {string.Join(", ", fileCandidates)} and embedded resources in assembly '{assembly.GetName().Name}'. Available embedded resources: {string.Join(", ", assembly.GetManifestResourceNames())}.");
 	}
 
 	private class TextRecord
