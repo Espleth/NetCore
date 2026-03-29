@@ -1,4 +1,5 @@
 ﻿using NLog;
+using NLog.Extensions.Logging;
 using NLog.Web;
 using StackExchange.Redis;
 using ILogger = Microsoft.Extensions.Logging.ILogger;
@@ -8,6 +9,13 @@ namespace Anycode.NetCore.Shared;
 
 public static class StartupHelper
 {
+	public static void ConfigureHostLogging(this IHostApplicationBuilder builder)
+	{
+		SetupEnvironment();
+		builder.Logging.ClearProviders();
+		builder.Logging.AddNLog();
+	}
+
 	public static (WebApplication app, ILogger log) CreateWebApplication(string[] args,
 		Action<IServiceCollection, IConfigurationManager, NLogLogger> registerServices)
 	{
@@ -15,6 +23,13 @@ public static class StartupHelper
 
 		var builder = WebApplication.CreateBuilder(args);
 		builder.Configuration.AddJsonFile($"Config{Path.DirectorySeparatorChar}appsettings.{environment}.json", false);
+		builder.Configuration.AddEnvironmentVariables(); // Env vars always override JSON files (Aspire, Docker, etc.)
+
+		// Explicit Kestrel endpoints from appsettings override ASPNETCORE_URLS.
+		// Under orchestrators (Aspire) re-point them to the assigned URL so ports match.
+		if (Environment.GetEnvironmentVariable("ASPNETCORE_URLS") is { } urls)
+			builder.Configuration.AddInMemoryCollection([new("Kestrel:Endpoints:Http:Url", urls.Split(';')[0])]);
+
 		log.Info("Application environment: {Environment}", environment);
 		builder.WebHost.UseKestrel();
 		builder.Logging.ClearProviders();
@@ -55,12 +70,13 @@ public static class StartupHelper
 		var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")?.ToLowerInvariant();
 
 		var nlogEnvPath = Path.Combine(AppContext.BaseDirectory, "Config", $"nlog.{environment}.config");
-		if (Path.Exists(nlogEnvPath))
-			LogManager.Setup().LoadConfigurationFromFile(nlogEnvPath);
-		else
-			LogManager.Setup().LoadConfigurationFromFile(Path.Combine(AppContext.BaseDirectory, "Config", $"nlog.config"));
+		var defaultNlogPath = Path.Combine(AppContext.BaseDirectory, "Config", "nlog.config");
+		var selectedNlogPath = Path.Exists(nlogEnvPath) ? nlogEnvPath : defaultNlogPath;
+
+		LogManager.Setup().LoadConfigurationFromFile(selectedNlogPath);
 
 		var log = LogManager.GetCurrentClassLogger();
+		log.Info("NLog config loaded from: {NLogConfigPath}", selectedNlogPath);
 
 		return (log, environment);
 	}

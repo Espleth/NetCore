@@ -1,6 +1,6 @@
 ﻿namespace Anycode.NetCore.Shared.Configuration;
 
-public class JwtConfig
+public record JwtConfig
 {
 	public required string SecretKey { get; init; }
 	public required string StampSecretKey { get; init; }

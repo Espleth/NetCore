@@ -10,7 +10,7 @@ return;
 
 void ConfigureServices(IServiceCollection services, IConfigurationManager configuration, IStartupLogger startupLog)
 {
-	var connections = configuration.GetConfig<DbConnections>();
+	var connections = configuration.GetConfig<ConnectionStrings>();
 
 	services.AddSingleton<NpgsqlDataSource>(_ => NpgsqlDataSource.Create(connections.AppDb!));
 

@@ -2,8 +2,10 @@
 
 public static class AppDbCommonDataSeeder
 {
-	public static void SeedData(AppDbContext db)
+	public static void SeedData(AppDbContext db, ILogger logger)
 	{
+		logger.LogInformation("Seeding common reference data...");
+
 		db.Languages.AddRangeIfNotExists<LanguageEntity, int>(new List<LanguageEntity>
 		{
 			new()

@@ -79,7 +79,7 @@ void ConfigureServices(IServiceCollection services, IConfigurationManager config
 void ConfigureCustomServices(IServiceCollection services, IConfigurationManager configuration, IStartupLogger startupLog)
 {
 	// Configuration
-	var connections = services.AddConfig<DbConnections>(configuration);
+	var connections = services.AddConfig<ConnectionStrings>(configuration);
 	services.AddConfig<EnvironmentConfig>(configuration);
 	services.AddConfig<LoggingConfig>(configuration);
 	services.AddConfig<JwtConfig>(configuration);
@@ -118,7 +118,8 @@ void ConfigureCustomServices(IServiceCollection services, IConfigurationManager 
 
 void ConfigureMassTransit(IServiceCollection services, IConfigurationManager configuration)
 {
-	services.AddMassTransit(configuration, mtConfig =>
+	var connections = configuration.GetConfig<ConnectionStrings>();
+	services.AddMassTransit(connections.RabbitMq!, mtConfig =>
 	{
 		mtConfig.AddConsumer<SendEmailRequestConsumer>(consConfig => consConfig.UseMessageRetry(r =>
 				r.Exponential(3, TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(60), TimeSpan.FromSeconds(5))))

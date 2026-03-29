@@ -5,7 +5,7 @@ namespace Anycode.NetCore.Shared.Helpers;
 
 public static class MassTransitExtensions
 {
-	public static void AddMassTransit(this IServiceCollection services, IConfigurationManager configuration,
+	public static void AddMassTransit(this IServiceCollection services, string rabbitMqUrl,
 		Action<IBusRegistrationConfigurator> configureMt, Action<IRabbitMqBusFactoryConfigurator> configureRabbit)
 	{
 		services.AddMassTransit(config =>
@@ -19,9 +19,7 @@ public static class MassTransitExtensions
 				rabbitConfig.UseInMemoryOutbox(busContext);
 				configureRabbit(rabbitConfig);
 
-				var connections = configuration.GetConfig<DbConnections>();
-
-				rabbitConfig.Host(new Uri(connections.RabbitMqUrl!));
+				rabbitConfig.Host(new Uri(rabbitMqUrl));
 
 				rabbitConfig.UseMessageRetry(r => { r.Incremental(3, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(5)); });
 

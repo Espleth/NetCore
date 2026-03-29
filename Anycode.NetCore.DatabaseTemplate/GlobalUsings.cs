@@ -10,6 +10,7 @@ global using Microsoft.EntityFrameworkCore.Design;
 global using Microsoft.EntityFrameworkCore.Metadata.Builders;
 global using Microsoft.Extensions.Configuration;
 global using Microsoft.Extensions.DependencyInjection;
+global using Microsoft.Extensions.Logging;
 global using Npgsql.EntityFrameworkCore.PostgreSQL.Infrastructure;
 global using Anycode.NetCore.DatabaseTemplate.Attributes;
 global using Anycode.NetCore.DatabaseTemplate.Constants;
