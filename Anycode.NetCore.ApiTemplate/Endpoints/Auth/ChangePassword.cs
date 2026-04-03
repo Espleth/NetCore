@@ -45,7 +45,7 @@ public class ChangePassword : IEndpoint
 
 		await userStampCacheService.InvalidateStampAsync(user.Id);
 
-		var jwt = AuthHelper.GenerateToken(user, jwtConfig, true);
+		var jwt = AuthHelper.GenerateToken(user, jwtConfig);
 		webContext.SetAuthorised(jwt);
 	}
 }

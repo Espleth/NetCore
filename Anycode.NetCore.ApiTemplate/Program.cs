@@ -73,6 +73,11 @@ void ConfigureServices(IServiceCollection services, IConfigurationManager config
 		.AddSignInManager<AppSignInManager>()
 		.AddDefaultTokenProviders();
 
+	services.AddDataProtection()
+		.PersistKeysToDbContext<AppDbContext>();
+
+	services.Configure<DataProtectionTokenProviderOptions>(options => { options.TokenLifespan = TimeSpan.FromDays(14); });
+
 	ConfigureCustomServices(services, configuration, startupLog);
 }
 

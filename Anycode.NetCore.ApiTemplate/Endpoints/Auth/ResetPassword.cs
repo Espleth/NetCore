@@ -35,7 +35,7 @@ public class ResetPassword : IEndpoint
 			throw new AppException(ErrorCode.InvalidConfirmationLink);
 		}
 
-		var jwt = AuthHelper.GenerateToken(user, jwtConfig, true);
+		var jwt = AuthHelper.GenerateToken(user, jwtConfig);
 		webContext.SetAuthorised(jwt);
 		return jwt.Token;
 	}
