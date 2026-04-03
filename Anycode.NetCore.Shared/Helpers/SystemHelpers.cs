@@ -56,7 +56,7 @@ public static class SystemHelpers
 	{
 		return string.IsNullOrWhiteSpace(value);
 	}
-	
+
 	public static bool TryParse<T>(string? str, out T res) where T : struct
 	{
 		res = default!;

@@ -41,7 +41,9 @@ public class ScribeHttpResponse<T> : ScribeHttpResponse
 		Data = data;
 	}
 
-	public ScribeHttpResponse(Exception exception) : base(exception) { }
+	public ScribeHttpResponse(Exception exception) : base(exception)
+	{
+	}
 
 	public ScribeHttpResponse(RestResponse<T> response) : base(response)
 	{

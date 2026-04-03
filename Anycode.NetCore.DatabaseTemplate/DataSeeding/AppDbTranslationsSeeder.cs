@@ -91,7 +91,7 @@ public class AppDbTranslationsSeeder
 		var assembly = typeof(AppDbTranslationsSeeder).Assembly;
 		var resourceNames = assembly.GetManifestResourceNames()
 			.Where(name => name.EndsWith($".Data.{translationsFileName}", StringComparison.OrdinalIgnoreCase)
-				|| name.EndsWith($".{translationsFileName}", StringComparison.OrdinalIgnoreCase))
+			               || name.EndsWith($".{translationsFileName}", StringComparison.OrdinalIgnoreCase))
 			.ToArray();
 
 		if (resourceNames.Length == 1)

@@ -9,10 +9,7 @@ builder.ConfigureHostLogging();
 
 var connectionString = builder.Configuration.GetConnectionString("AppDb") ?? throw new InvalidOperationException("ConnectionStrings:AppDb is not configured");
 
-builder.Services.AddDbContext<AppDbContext>(options =>
-{
-	options.UseNpgsql(connectionString, npgsql => npgsql.MapEnums());
-});
+builder.Services.AddDbContext<AppDbContext>(options => { options.UseNpgsql(connectionString, npgsql => npgsql.MapEnums()); });
 builder.Services.AddHostedService<MigrationWorker>();
 
 var host = builder.Build();

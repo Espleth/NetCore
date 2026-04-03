@@ -15,7 +15,7 @@ public static class EndpointsConfigurator
 			.Register<ChangePassword>()
 			.Register<RequestResetPassword>()
 			.Register<ResetPassword>();
-        
+
 		endpointsBuilder.MapGroupWithTag("App")
 			.Register<GetAllRoles>()
 			.Register<GetAllPermissions>();

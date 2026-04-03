@@ -26,6 +26,7 @@ public static class SpreadsheetsHelper
 					: value.ToString() ?? "";
 				csv.WriteField(field);
 			}
+
 			csv.NextRecord();
 		}
 

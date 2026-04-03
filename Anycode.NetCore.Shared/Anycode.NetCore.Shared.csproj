@@ -29,15 +29,15 @@
         <PackageReference Include="JetBrains.Annotations" Version="2025.2.4"/>
         <PackageReference Include="MassTransit" Version="8.5.8"/>
         <PackageReference Include="MassTransit.RabbitMQ" Version="8.5.8"/>
-        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.5" />
-        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.5" />
-        <PackageReference Include="Microsoft.OpenApi" Version="2.7.2" />
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.5"/>
+        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.5"/>
+        <PackageReference Include="Microsoft.OpenApi" Version="2.7.2"/>
         <PackageReference Include="NLog.Targets.Seq" Version="4.0.2"/>
         <PackageReference Include="NLog.Web.AspNetCore" Version="6.1.2"/>
-        <PackageReference Include="Quartz.AspNetCore" Version="3.17.1" />
-        <PackageReference Include="RestSharp" Version="114.0.0" />
-        <PackageReference Include="RestSharp.Serializers.CsvHelper" Version="114.0.0" />
-        <PackageReference Include="StackExchange.Redis" Version="2.12.14" />
+        <PackageReference Include="Quartz.AspNetCore" Version="3.17.1"/>
+        <PackageReference Include="RestSharp" Version="114.0.0"/>
+        <PackageReference Include="RestSharp.Serializers.CsvHelper" Version="114.0.0"/>
+        <PackageReference Include="StackExchange.Redis" Version="2.12.14"/>
     </ItemGroup>
 
     <ItemGroup>
@@ -45,15 +45,15 @@
     </ItemGroup>
 
     <ItemGroup>
-      <None Update="Config\crawler-user-agents.json">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="Config\nlog.config">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="Config\nlog.common.config">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
+        <None Update="Config\crawler-user-agents.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Config\nlog.config">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Config\nlog.common.config">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
 
 </Project>
