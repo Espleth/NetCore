@@ -29,7 +29,7 @@ public static class AppExtensions
 		var user = await query.FirstOrDefaultAsync(predicate, ct);
 		return user ?? throw AppException.Unauthorized;
 	}
-	
+
 	public static async Task<TSource> FirstOrUnauthorizedAsync<TSource>(this IQueryable<TSource> query, CancellationToken ct = default)
 	{
 		var user = await query.FirstOrDefaultAsync(ct);
@@ -42,7 +42,7 @@ public static class AppExtensions
 		var result = await query.FirstOrDefaultAsync(predicate, ct);
 		return result ?? throw AppException.NotFound;
 	}
-	
+
 	public static async Task<TSource> FirstOrNotFoundAsync<TSource>(this IQueryable<TSource> query, CancellationToken ct = default)
 	{
 		var result = await query.FirstOrDefaultAsync(ct);

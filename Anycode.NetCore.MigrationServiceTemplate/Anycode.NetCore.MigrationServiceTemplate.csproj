@@ -1,18 +1,18 @@
 <Project Sdk="Microsoft.NET.Sdk.Worker">
 
-  <PropertyGroup>
-    <TargetFramework>net10.0</TargetFramework>
-    <Nullable>enable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <UserSecretsId>dotnet-Anycode.NetCore.MigrationService-ef4bc6c2-0a76-4f42-aa02-7212b75b1304</UserSecretsId>
-  </PropertyGroup>
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <UserSecretsId>dotnet-Anycode.NetCore.MigrationService-ef4bc6c2-0a76-4f42-aa02-7212b75b1304</UserSecretsId>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.5" />
-  </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.5"/>
+    </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Anycode.NetCore.DatabaseTemplate\Anycode.NetCore.DatabaseTemplate.csproj" />
-    <ProjectReference Include="..\Anycode.NetCore.Shared\Anycode.NetCore.Shared.csproj" />
-  </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\Anycode.NetCore.DatabaseTemplate\Anycode.NetCore.DatabaseTemplate.csproj"/>
+        <ProjectReference Include="..\Anycode.NetCore.Shared\Anycode.NetCore.Shared.csproj"/>
+    </ItemGroup>
 </Project>

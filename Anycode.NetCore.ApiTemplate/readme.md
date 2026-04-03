@@ -1,9 +1,11 @@
 Postgres:
+
 ```
 docker run -d --name postgres -p 5432:5432 -e POSTGRES_USER="postgres" -e POSTGRES_PASSWORD="root" postgres:latest
 ```
 
 Redis:
+
 ```
 docker run -d --name redis-stack \
 --restart unless-stopped \
@@ -14,6 +16,7 @@ redis/redis-stack:latest
 ```
 
 Rabbit:
+
 ```
 docker run -d --name rabbitmq -p 5672:5672 -p 15672:15672 \
 --restart unless-stopped \
@@ -27,10 +30,13 @@ Logs (configured in unified nlog.config file):<br />
 By default logs are saved in the /Logs folder next to executable.<br />
 Logs are also configured to be saved in Seq. Installation:<br />
 Generate password hash (if needed):<br />
+
 ```
 echo 'password' | docker run --rm -i datalust/seq config hash
 ```
+
 Run:
+
 ```
 docker run -d --name seq \
 -p 5341:80 \

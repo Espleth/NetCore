@@ -35,7 +35,7 @@ void ConfigureServices(IServiceCollection services, IConfigurationManager config
 	services.ConfigureHttpJsonOptions(options => options.SerializerOptions.SetApiJsonSerializerOptions());
 
 	services.AddMemoryCache() // IMemoryCache
-        .AddHttpClient() // IHttpClientFactory
+		.AddHttpClient() // IHttpClientFactory
 		.AddOutputCache() // Response cache for MinimalAPI;
 		.AddValidation() // MinimalAPI model validation
 		.Configure<RouteHandlerOptions>(options => options.ThrowOnBadRequest = true) // Throw exceptions on validation errors (to them in our middleware)

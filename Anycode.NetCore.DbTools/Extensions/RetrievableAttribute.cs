@@ -1,6 +1,6 @@
 namespace Anycode.NetCore.DbTools.Extensions;
 
- public abstract class RetrievableAttribute<TAttribute> : Attribute where TAttribute : RetrievableAttribute<TAttribute>
+public abstract class RetrievableAttribute<TAttribute> : Attribute where TAttribute : RetrievableAttribute<TAttribute>
 {
 	private static class Cache<TEnum> where TEnum : struct, Enum
 	{
