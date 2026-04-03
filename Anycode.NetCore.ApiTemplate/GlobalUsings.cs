@@ -10,6 +10,7 @@ global using System.Text.Json.Serialization;
 global using JetBrains.Annotations;
 global using Microsoft.AspNetCore.Authentication;
 global using Microsoft.AspNetCore.Identity;
+global using Microsoft.AspNetCore.DataProtection;
 global using Microsoft.AspNetCore.Mvc;
 global using Microsoft.EntityFrameworkCore;
 global using Microsoft.Extensions.Caching.Memory;

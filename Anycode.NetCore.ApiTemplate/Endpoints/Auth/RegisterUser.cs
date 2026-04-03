@@ -64,7 +64,7 @@ public class RegisterUser : IEndpoint
 
 		await emailQueueService.EnqueueRegisterEmailAsync(user.Id, true, ct: CancellationToken.None);
 
-		var jwt = AuthHelper.GenerateToken(user, jwtConfig, true);
+		var jwt = AuthHelper.GenerateToken(user, jwtConfig);
 		webContext.SetAuthorised(jwt);
 	}
 

@@ -29,7 +29,7 @@ public class LogInUser : IEndpoint
 		await userManager.ResetAccessFailedCountAsync(user);
 		await lastActivitiesService.UpdateUserLastActivityAsync(user.Id);
 
-		var jwt = AuthHelper.GenerateToken(user, jwtConfig, body.RememberMe);
+		var jwt = AuthHelper.GenerateToken(user, jwtConfig);
 		webContext.SetAuthorised(jwt);
 	}
 }
