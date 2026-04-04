@@ -10,6 +10,7 @@
         <NoWarn>$(NoWarn);1591</NoWarn>
         <IsPackable>false</IsPackable>
         <InterceptorsNamespaces>$(InterceptorsNamespaces);Microsoft.AspNetCore.OpenApi.Generated</InterceptorsNamespaces>
+        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     </PropertyGroup>
 
     <ItemGroup>
@@ -57,6 +58,12 @@
 
     <ItemGroup>
         <Folder Include="wwwroot\"/>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Include="..\.dockerignore">
+        <Link>.dockerignore</Link>
+      </Content>
     </ItemGroup>
 
 </Project>
