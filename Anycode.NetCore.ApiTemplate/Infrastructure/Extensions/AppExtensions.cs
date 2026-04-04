@@ -23,27 +23,29 @@ public static class AppExtensions
 		}
 	}
 
-	public static async Task<UserEntity> FirstOrUnauthorizedAsync(this IQueryable<UserEntity> query, Expression<Func<UserEntity, bool>> predicate,
-		CancellationToken ct = default)
+	public static async Task<UserEntity> FirstOrUnauthorizedAsync(this IQueryable<UserEntity> query,
+		Expression<Func<UserEntity, bool>> predicate, CancellationToken ct = default)
 	{
 		var user = await query.FirstOrDefaultAsync(predicate, ct);
 		return user ?? throw AppException.Unauthorized;
 	}
 
-	public static async Task<TSource> FirstOrUnauthorizedAsync<TSource>(this IQueryable<TSource> query, CancellationToken ct = default)
+	public static async Task<TSource> FirstOrUnauthorizedAsync<TSource>(this IQueryable<TSource> query,
+		CancellationToken ct = default)
 	{
 		var user = await query.FirstOrDefaultAsync(ct);
 		return user ?? throw AppException.Unauthorized;
 	}
 
-	public static async Task<TSource> FirstOrNotFoundAsync<TSource>(this IQueryable<TSource> query, Expression<Func<TSource, bool>> predicate,
-		CancellationToken ct = default)
+	public static async Task<TSource> FirstOrNotFoundAsync<TSource>(this IQueryable<TSource> query,
+		Expression<Func<TSource, bool>> predicate, CancellationToken ct = default)
 	{
 		var result = await query.FirstOrDefaultAsync(predicate, ct);
 		return result ?? throw AppException.NotFound;
 	}
 
-	public static async Task<TSource> FirstOrNotFoundAsync<TSource>(this IQueryable<TSource> query, CancellationToken ct = default)
+	public static async Task<TSource> FirstOrNotFoundAsync<TSource>(this IQueryable<TSource> query,
+		CancellationToken ct = default)
 	{
 		var result = await query.FirstOrDefaultAsync(ct);
 		return result ?? throw AppException.NotFound;

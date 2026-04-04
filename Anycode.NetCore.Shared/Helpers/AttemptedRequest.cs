@@ -14,8 +14,8 @@ public static class AttemptedRequest
 	/// <param name="allowedExceptions">if receive exception to this type, throw immediately</param>
 	/// <param name="ct">cancellation token</param>
 	public static async Task<TResult> ExecuteAsync<TResult>(Func<Task<TResult>> func, ILogger? log,
-		int? attemptsCount = 3, double secondsBetweenAttempts = 5, bool doubleDelayEachAttempt = true, ICollection<Type>? allowedExceptions = null,
-		CancellationToken ct = default)
+		int? attemptsCount = 3, double secondsBetweenAttempts = 5, bool doubleDelayEachAttempt = true,
+		ICollection<Type>? allowedExceptions = null, CancellationToken ct = default)
 	{
 		var attempts = 0;
 		var currentDelay = secondsBetweenAttempts;
@@ -56,7 +56,8 @@ public static class AttemptedRequest
 	/// <param name="doubleDelayEachAttempt">the delay can be doubled after every attempt</param>
 	/// <param name="ct">cancellation token</param>
 	public static async Task<(bool, TResult?)> ExecuteSafeAsync<TResult>(Func<Task<TResult>> func, ILogger? log,
-		int? attemptsCount = 3, double secondsBetweenAttempts = 5, bool doubleDelayEachAttempt = true, CancellationToken ct = default)
+		int? attemptsCount = 3, double secondsBetweenAttempts = 5, bool doubleDelayEachAttempt = true,
+		CancellationToken ct = default)
 	{
 		try
 		{

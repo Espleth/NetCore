@@ -30,13 +30,18 @@ public class ExceptionHandlingMiddleware(
 			{
 				var endpointException = exception as ApiException ?? exception.InnerException as ApiException;
 
-				context.Features.Set(new LogErrorFeature(string.Join(", ", endpointException!.AdditionalErrors.Select(x => x.ToString()))));
+				context.Features.Set(new LogErrorFeature(
+					string.Join(", ", endpointException!.AdditionalErrors.Select(x => x.ToString()))));
 				context.Response.StatusCode = endpointException.HttpCode;
-				await WriteProblemDetailsAsync(context, exception, endpointException.Error.CodeName, endpointException.Error.Message,
+				await WriteProblemDetailsAsync(
+					context, exception, endpointException.Error.CodeName, endpointException.Error.Message,
 					new Dictionary<string, object?>
 					{
 						{ "errorCode", endpointException.Error.Code },
-						{ "additionalErrors", endpointException.AdditionalErrors.Select(x => new ErrorMessage(x.Code, x.CodeName)).ToList() },
+						{
+							"additionalErrors", endpointException.AdditionalErrors
+								.Select(x => new ErrorMessage(x.Code, x.CodeName)).ToList()
+						},
 					});
 			}
 			else

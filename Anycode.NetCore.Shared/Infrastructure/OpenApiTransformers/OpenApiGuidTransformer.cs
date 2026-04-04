@@ -5,7 +5,8 @@
 /// </summary>
 public class OpenApiGuidTransformer : IOpenApiSchemaTransformer
 {
-	public Task TransformAsync(OpenApiSchema schema, OpenApiSchemaTransformerContext context, CancellationToken cancellationToken)
+	public Task TransformAsync(OpenApiSchema schema, OpenApiSchemaTransformerContext context,
+		CancellationToken cancellationToken)
 	{
 		if (schema.Format != "uuid")
 			return Task.CompletedTask;

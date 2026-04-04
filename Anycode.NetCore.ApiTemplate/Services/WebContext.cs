@@ -1,6 +1,10 @@
 ﻿namespace Anycode.NetCore.ApiTemplate.Services;
 
-public class WebContext(IHttpContextAccessor httpContextAccessor, LanguagesCacheService languagesCache, JwtConfig jwtConfig, ILogger<WebContext> log)
+public class WebContext(
+	IHttpContextAccessor httpContextAccessor,
+	LanguagesCacheService languagesCache,
+	JwtConfig jwtConfig,
+	ILogger<WebContext> log)
 {
 	private HttpContext HttpContext => httpContextAccessor.HttpContext ?? throw new Exception("HttpContext is null");
 

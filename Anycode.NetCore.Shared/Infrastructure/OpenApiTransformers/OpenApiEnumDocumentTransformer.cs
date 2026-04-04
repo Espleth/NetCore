@@ -8,7 +8,8 @@ public class OpenApiEnumDocumentTransformer : IOpenApiDocumentTransformer
 	private static readonly Dictionary<string, XDocument> _xmlDocs = new();
 	private static bool _initialized;
 
-	public Task TransformAsync(OpenApiDocument document, OpenApiDocumentTransformerContext context, CancellationToken cancellationToken)
+	public Task TransformAsync(OpenApiDocument document, OpenApiDocumentTransformerContext context,
+		CancellationToken cancellationToken)
 	{
 		if (!_initialized)
 		{

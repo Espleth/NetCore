@@ -5,7 +5,8 @@ public class SingleWorkingService
 {
 	private volatile bool _isWorking;
 
-	public async Task RunAsync(Func<Task> func, string workName, ILogger? log, bool throwOnError = false, bool isFatal = false)
+	public async Task RunAsync(Func<Task> func,
+		string workName, ILogger? log, bool throwOnError = false, bool isFatal = false)
 	{
 		if (_isWorking)
 		{

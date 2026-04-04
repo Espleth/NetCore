@@ -16,7 +16,8 @@ public static class LoggingExtensions
 		log.LogInternal(LogLevel.Trace, LogLevel.Trace, MaxArgumentLength, null, message, args);
 	}
 
-	public static void Trace(this ILogger log, Exception exception, [StructuredMessageTemplate] string? message, params object?[] args)
+	public static void Trace(this ILogger log,
+		Exception exception, [StructuredMessageTemplate] string? message, params object?[] args)
 	{
 		log.LogInternal(LogLevel.Trace, LogLevel.Trace, MaxArgumentLength, exception, message, args);
 	}
@@ -26,7 +27,8 @@ public static class LoggingExtensions
 		log.LogInternal(LogLevel.Debug, LogLevel.Trace, MaxArgumentLength, null, message, args);
 	}
 
-	public static void Debug(this ILogger log, Exception exception, [StructuredMessageTemplate] string? message, params object?[] args)
+	public static void Debug(this ILogger log,
+		Exception exception, [StructuredMessageTemplate] string? message, params object?[] args)
 	{
 		log.LogInternal(LogLevel.Debug, LogLevel.Trace, MaxArgumentLength, exception, message, args);
 	}
@@ -36,7 +38,8 @@ public static class LoggingExtensions
 		log.LogInternal(LogLevel.Information, LogLevel.Trace, MaxArgumentLength, null, message, args);
 	}
 
-	public static void Info(this ILogger log, Exception exception, [StructuredMessageTemplate] string? message, params object?[] args)
+	public static void Info(this ILogger log,
+		Exception exception, [StructuredMessageTemplate] string? message, params object?[] args)
 	{
 		log.LogInternal(LogLevel.Information, LogLevel.Trace, MaxArgumentLength, exception, message, args);
 	}
@@ -46,7 +49,8 @@ public static class LoggingExtensions
 		log.LogInternal(LogLevel.Warning, LogLevel.Trace, MaxArgumentLength, null, message, args);
 	}
 
-	public static void Warn(this ILogger log, Exception exception, [StructuredMessageTemplate] string? message, params object?[] args)
+	public static void Warn(this ILogger log,
+		Exception exception, [StructuredMessageTemplate] string? message, params object?[] args)
 	{
 		log.LogInternal(LogLevel.Warning, LogLevel.Trace, MaxArgumentLength, exception, message, args);
 	}
@@ -56,7 +60,8 @@ public static class LoggingExtensions
 		log.LogInternal(LogLevel.Error, LogLevel.Trace, MaxArgumentLength, null, message, args);
 	}
 
-	public static void Error(this ILogger log, Exception exception, [StructuredMessageTemplate] string? message, params object?[] args)
+	public static void Error(this ILogger log,
+		Exception exception, [StructuredMessageTemplate] string? message, params object?[] args)
 	{
 		log.LogInternal(LogLevel.Error, LogLevel.Trace, MaxArgumentLength, exception, message, args);
 	}
@@ -66,29 +71,32 @@ public static class LoggingExtensions
 		log.LogInternal(LogLevel.Critical, LogLevel.Trace, MaxArgumentLength, null, message, args);
 	}
 
-	public static void Fatal(this ILogger log, Exception exception, [StructuredMessageTemplate] string? message, params object?[] args)
+	public static void Fatal(this ILogger log,
+		Exception exception, [StructuredMessageTemplate] string? message, params object?[] args)
 	{
 		log.LogInternal(LogLevel.Critical, LogLevel.Trace, MaxArgumentLength, exception, message, args);
 	}
 
-	public static void Log(this ILogger log, LogLevel logLevel, LogLevel minLevel, [StructuredMessageTemplate] string? message, params object?[] args)
+	public static void Log(this ILogger log,
+		LogLevel logLevel, LogLevel minLevel, [StructuredMessageTemplate] string? message, params object?[] args)
 	{
 		log.LogInternal(logLevel, minLevel, MaxArgumentLength, null, message, args);
 	}
 
-	public static void Log(this ILogger log, LogLevel logLevel, LogLevel minLevel, int maxArgLength, [StructuredMessageTemplate] string? message,
-		params object?[] args)
+	public static void Log(this ILogger log, LogLevel logLevel, LogLevel minLevel, int maxArgLength,
+		[StructuredMessageTemplate] string? message, params object?[] args)
 	{
 		log.LogInternal(logLevel, minLevel, maxArgLength, null, message, args);
 	}
 
-	public static void Log(this ILogger log, LogLevel logLevel, LogLevel minLevel, Exception? exception, [StructuredMessageTemplate] string? message,
-		params object?[] args)
+	public static void Log(this ILogger log, LogLevel logLevel, LogLevel minLevel, Exception? exception,
+		[StructuredMessageTemplate] string? message, params object?[] args)
 	{
 		log.LogInternal(logLevel, minLevel, MaxArgumentLength, exception, message, args);
 	}
 
-	private static void LogInternal(this ILogger log, LogLevel logLevel, LogLevel minLevel, int maxArgLength, Exception? exception,
+	private static void LogInternal(this ILogger log,
+		LogLevel logLevel, LogLevel minLevel, int maxArgLength, Exception? exception,
 		[StructuredMessageTemplate] string? message, params object?[] args)
 	{
 		if (logLevel < minLevel)

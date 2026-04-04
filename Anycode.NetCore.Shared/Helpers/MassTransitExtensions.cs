@@ -31,7 +31,8 @@ public static class MassTransitExtensions
 	/// <summary>
 	/// Setup publisher to create queue and start sending messages
 	/// </summary>
-	public static void SetupPublisher<T>(this IRabbitMqBusFactoryConfigurator configurator, string exchangeName) where T : class
+	public static void SetupPublisher<T>(this IRabbitMqBusFactoryConfigurator configurator, string exchangeName)
+		where T : class
 	{
 		configurator.Message<T>(x => x.SetEntityName(exchangeName));
 		configurator.Publish<T>(x =>

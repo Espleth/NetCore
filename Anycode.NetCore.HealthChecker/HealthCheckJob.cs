@@ -3,7 +3,8 @@ using RestSharp.Serializers.Json;
 
 namespace Anycode.NetCore.HealthChecker;
 
-public class HealthCheckJob(NpgsqlDataSource dataSource, HealthCheckerConfig config, ILogger<HealthCheckJob> log) : BaseJob<HealthCheckJob>(log)
+public class HealthCheckJob(NpgsqlDataSource dataSource, HealthCheckerConfig config, ILogger<HealthCheckJob> log)
+	: BaseJob<HealthCheckJob>(log)
 {
 	private static DateTimeOffset? _lastProblemsReport;
 

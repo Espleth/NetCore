@@ -4,7 +4,8 @@ namespace Anycode.NetCore.ApiTemplate.Services.Email;
 
 public class EmailQueueService(IPublishEndpoint publisher, ILogger<EmailQueueService> log)
 {
-	public async Task EnqueueRegisterEmailAsync(Guid userId, bool needEmailConfirm, bool throwOnError = false, CancellationToken ct = default)
+	public async Task EnqueueRegisterEmailAsync(Guid userId, bool needEmailConfirm, bool throwOnError = false,
+		CancellationToken ct = default)
 	{
 		try
 		{

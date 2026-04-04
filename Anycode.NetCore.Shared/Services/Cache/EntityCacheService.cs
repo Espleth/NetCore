@@ -4,7 +4,8 @@
 /// Basic entities in-memory cache service to keep all entities from selected table in memory.
 /// Designed to be singleton
 /// </summary>
-public abstract class EntityCacheService<TKey, TEntity, TContext>(IDbContextFactory<TContext> dbFactory) : ICacheWarmupService
+public abstract class EntityCacheService<TKey, TEntity, TContext>(IDbContextFactory<TContext> dbFactory)
+	: ICacheWarmupService
 	where TEntity : class, IEntity<TKey>
 	where TKey : notnull
 	where TContext : DbContext

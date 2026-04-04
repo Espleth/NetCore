@@ -2,7 +2,8 @@
 
 public class ApiHealthCheck : IHealthCheck
 {
-	public Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default)
+	public Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context,
+		CancellationToken cancellationToken = default)
 	{
 		var lastResponses = RequestLoggingMiddleware.LastResponses.ToList();
 
@@ -21,12 +22,15 @@ public class ApiHealthCheck : IHealthCheck
 		var veryLongRequests = lastResponses.Count(x => x.responseTime.TotalSeconds >= 5);
 		var veryLongRequestsPercent = veryLongRequests / (decimal)lastResponses.Count * 100;
 
-		var isDegraded = badRequestsPercent >= 20 || longRequestsPercent >= 20 || serverErrorsPercent >= 5 || veryLongRequestsPercent >= 5;
-		var isUnhealthy = badRequestsPercent >= 50 || longRequestsPercent >= 50 || serverErrorsPercent >= 15 || veryLongRequestsPercent >= 15;
+		var isDegraded = badRequestsPercent >= 20 || longRequestsPercent >= 20 ||
+		                 serverErrorsPercent >= 5 || veryLongRequestsPercent >= 5;
+		var isUnhealthy = badRequestsPercent >= 50 || longRequestsPercent >= 50 ||
+		                  serverErrorsPercent >= 15 || veryLongRequestsPercent >= 15;
 
 		var averageResponseTime = lastResponses.Average(x => x.responseTime.TotalSeconds);
 
-		return Task.FromResult(new HealthCheckResult(isUnhealthy ? HealthStatus.Unhealthy : isDegraded ? HealthStatus.Degraded : HealthStatus.Healthy,
+		return Task.FromResult(new HealthCheckResult(
+			isUnhealthy ? HealthStatus.Unhealthy : isDegraded ? HealthStatus.Degraded : HealthStatus.Healthy,
 			$"Last {lastResponses.Count} requests:\n" +
 			$"{badRequests} ({badRequestsPercent:0.##}%) bad requests (4xx)\n" +
 			$"{serverErrors} ({serverErrorsPercent:0.##}%) server errors (5xx)\n" +

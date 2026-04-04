@@ -7,7 +7,8 @@ using Microsoft.EntityFrameworkCore;
 var builder = Host.CreateApplicationBuilder(args);
 builder.ConfigureHostLogging();
 
-var connectionString = builder.Configuration.GetConnectionString("AppDb") ?? throw new InvalidOperationException("ConnectionStrings:AppDb is not configured");
+var connectionString = builder.Configuration.GetConnectionString("AppDb")
+                       ?? throw new InvalidOperationException("ConnectionStrings:AppDb is not configured");
 
 builder.Services.AddDbContext<AppDbContext>(options => { options.UseNpgsql(connectionString, npgsql => npgsql.MapEnums()); });
 builder.Services.AddHostedService<MigrationWorker>();

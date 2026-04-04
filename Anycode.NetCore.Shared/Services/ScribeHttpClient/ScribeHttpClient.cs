@@ -74,13 +74,14 @@ public class ScribeHttpClient
 			: new RestClient(options, configureSerialization: configureSerialization);
 	}
 
-	public Task<ScribeHttpResponse<T>> ExecuteSafeAsync<T>(RestRequest request, CancellationToken ct = default) where T : class
+	public Task<ScribeHttpResponse<T>> ExecuteSafeAsync<T>(RestRequest request, CancellationToken ct = default)
+		where T : class
 	{
 		return ExecuteSafeAsync<T>(request, null, ct);
 	}
 
-	public async Task<ScribeHttpResponse<T>> ExecuteSafeAsync<T>(RestRequest request, Func<T, bool>? checkIfDataValid = null,
-		CancellationToken ct = default)
+	public async Task<ScribeHttpResponse<T>> ExecuteSafeAsync<T>(RestRequest request,
+		Func<T, bool>? checkIfDataValid = null, CancellationToken ct = default)
 		where T : class
 	{
 		var hash = GetRequestHash(request);
@@ -170,7 +171,8 @@ public class ScribeHttpClient
 	/// <summary>
 	/// If data is not valid, it will throw an exception.
 	/// </summary>
-	public async Task<T> ExecuteUnsafeAsync<T>(RestRequest request, Func<T, bool>? checkIfDataValid = null, CancellationToken ct = default)
+	public async Task<T> ExecuteUnsafeAsync<T>(RestRequest request, Func<T, bool>? checkIfDataValid = null,
+		CancellationToken ct = default)
 		where T : class
 	{
 		var result = await ExecuteSafeAsync(request, checkIfDataValid, ct);
@@ -264,7 +266,8 @@ public class ScribeHttpClient
 		throw new InvalidOperationException("Retry loop completed without returning a response");
 	}
 
-	private async Task<RestResponse<T>> ExecuteAsync<T>(RestRequest request, bool isRetry, CancellationToken ct) where T : notnull
+	private async Task<RestResponse<T>> ExecuteAsync<T>(RestRequest request, bool isRetry, CancellationToken ct)
+		where T : notnull
 	{
 		if (_rateLimit != null)
 			await _rateLimit.WaitRatelimitAsync(isRetry, ct);

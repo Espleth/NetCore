@@ -20,7 +20,8 @@ public static class EndpointsHelper
 		return builder.WithDescription(MakeErrorsDescription(errors));
 	}
 
-	public static IEndpointConventionBuilder WithErrorsDescription(this IEndpointConventionBuilder builder, params ErrorCode[] errors)
+	public static IEndpointConventionBuilder WithErrorsDescription(this IEndpointConventionBuilder builder,
+		params ErrorCode[] errors)
 	{
 		return builder.WithDescription(MakeErrorsDescription(errors));
 	}

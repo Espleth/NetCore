@@ -10,7 +10,8 @@ public class RequestLoggingMiddleware(
 
 	public async Task InvokeAsync(HttpContext context)
 	{
-		// In case of not logging we ideally should save LastResponses. But if that'll be needed, LastResponses should be moved to another middleware
+		// In case of not logging we ideally should save LastResponses.
+		// But if that'll be needed, LastResponses should be moved to another middleware
 		if (!loggingConfig.LogApiRequests || context.Request.Method == "OPTIONS")
 		{
 			await next(context);
@@ -38,7 +39,8 @@ public class RequestLoggingMiddleware(
 		ip ??= context.Connection.RemoteIpAddress?.ToString() ?? "-";
 
 		if (loggingConfig.LogRequestHeaders)
-			scopes.Add(log.BeginScope("{Headers}", string.Join(';', context.Request.Headers.Select(x => $"{x.Key}={x.Value}"))));
+			scopes.Add(log.BeginScope("{Headers}",
+				string.Join(';', context.Request.Headers.Select(x => $"{x.Key}={x.Value}"))));
 
 		if (loggingConfig.LogRequestBody)
 		{
@@ -61,7 +63,8 @@ public class RequestLoggingMiddleware(
 		{
 			if (loggingConfig.TraceLongRequests)
 			{
-				timer = new Timer(_ => log.Warn("Request stuck for {ElapsedTotalMinutes:0.#} minutes", stopwatch.Elapsed.TotalMinutes),
+				timer = new Timer(_ =>
+						log.Warn("Request stuck for {ElapsedTotalMinutes:0.#} minutes", stopwatch.Elapsed.TotalMinutes),
 					null, TimeSpan.FromMinutes(3), TimeSpan.FromMinutes(3));
 			}
 

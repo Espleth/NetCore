@@ -32,14 +32,15 @@ public static class CollectionHelpers
 		}
 	}
 
-	public static ConcurrentDictionary<TKey, TValue> ToConcurrentDictionary<TKey, TValue>(this IEnumerable<TValue> values, Func<TValue, TKey> keySelector)
-		where TKey : notnull
+	public static ConcurrentDictionary<TKey, TValue> ToConcurrentDictionary<TKey, TValue>(
+		this IEnumerable<TValue> values, Func<TValue, TKey> keySelector) where TKey : notnull
 	{
-		return new ConcurrentDictionary<TKey, TValue>(values.Select(x => new KeyValuePair<TKey, TValue>(keySelector(x), x)));
+		return new ConcurrentDictionary<TKey, TValue>(
+			values.Select(x => new KeyValuePair<TKey, TValue>(keySelector(x), x)));
 	}
 
-	public static Dictionary<TKey, List<TValue>> GroupToDictionary<TKey, TValue>(this IEnumerable<TValue> values, Func<TValue, TKey> keySelector)
-		where TKey : notnull
+	public static Dictionary<TKey, List<TValue>> GroupToDictionary<TKey, TValue>(
+		this IEnumerable<TValue> values, Func<TValue, TKey> keySelector) where TKey : notnull
 	{
 		return values.GroupBy(keySelector).ToDictionary(x => x.Key, x => x.ToList());
 	}
@@ -51,7 +52,8 @@ public static class CollectionHelpers
 		dict[key] = value + 1;
 	}
 
-	public static void AddToList<TKey, TValue>(this Dictionary<TKey, List<TValue>> dict, TKey key, TValue value) where TKey : notnull
+	public static void AddToList<TKey, TValue>(this Dictionary<TKey, List<TValue>> dict, TKey key, TValue value)
+		where TKey : notnull
 	{
 		if (!dict.TryGetValue(key, out var list))
 		{

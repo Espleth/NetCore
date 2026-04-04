@@ -24,7 +24,8 @@ public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<AppDbConte
 		var seedLogger = _loggerFactory.CreateLogger<AppDbDataSeeder>();
 		// Data seeding applied on dotnet ef database update
 		// https://learn.microsoft.com/en-us/ef/core/modeling/data-seeding
-		builder.UseNpgsql(configuration["ConnectionString"]!, optionsBuilder => optionsBuilder.CommandTimeout(300).MapEnums())
+		builder.UseNpgsql(configuration["ConnectionString"]!, optionsBuilder =>
+				optionsBuilder.CommandTimeout(300).MapEnums())
 			.UseSeeding((db, _) => AppDbDataSeeder.SeedData(db, seedLogger));
 		return new AppDbContext(builder.Options);
 	}

@@ -7,7 +7,8 @@ public static class HealthCheckHelper
 		if (healthCheckResults.All(x => x.Status == HealthStatus.Healthy))
 			return HealthCheckResult.Healthy("All checks passed.");
 
-		var description = string.Join('\n', healthCheckResults.Where(x => x.Status != HealthStatus.Healthy).Select(x => x.Description));
+		var description = string.Join('\n',
+			healthCheckResults.Where(x => x.Status != HealthStatus.Healthy).Select(x => x.Description));
 		return healthCheckResults.Any(x => x.Status == HealthStatus.Unhealthy)
 			? HealthCheckResult.Unhealthy(description)
 			: HealthCheckResult.Degraded(description);

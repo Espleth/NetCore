@@ -6,7 +6,8 @@ namespace Anycode.NetCore.ApiTemplate.Services.Cache;
 /// Preferred implementation of <see cref="IUserStampCacheService{TId}"/> in case if API can be deployed in multiple instances, and we need a shared cache.
 /// Note that we're checking stamp on every user request
 /// </summary>
-public class RedisUserStampCacheService(AppDbContext db, IDatabase redis, JwtConfig jwtConfig) : IUserStampCacheService<Guid>
+public class RedisUserStampCacheService(AppDbContext db, IDatabase redis, JwtConfig jwtConfig)
+	: IUserStampCacheService<Guid>
 {
 	public async Task<UserAuthStampInfo> GetUserStampByIdAsync(Guid userId, CancellationToken ct = default)
 	{

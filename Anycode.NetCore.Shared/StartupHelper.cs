@@ -81,21 +81,24 @@ public static class StartupHelper
 		return (log, environment);
 	}
 
-	public static IServiceCollection AddCacheService<TCacheService>(this IServiceCollection services) where TCacheService : class, ICacheWarmupService
+	public static IServiceCollection AddCacheService<TCacheService>(this IServiceCollection services)
+		where TCacheService : class, ICacheWarmupService
 	{
 		services.AddTransient<TCacheService>();
 		services.AddTransient<ICacheWarmupService, TCacheService>();
 		return services;
 	}
 
-	public static IServiceCollection AddCacheServiceSingleton<TCacheService>(this IServiceCollection services) where TCacheService : class, ICacheWarmupService
+	public static IServiceCollection AddCacheServiceSingleton<TCacheService>(this IServiceCollection services)
+		where TCacheService : class, ICacheWarmupService
 	{
 		services.AddSingleton<TCacheService>();
 		services.AddSingleton<ICacheWarmupService, TCacheService>();
 		return services;
 	}
 
-	public static TService AddConfig<TService>(this IServiceCollection services, IConfiguration configuration) where TService : class
+	public static TService AddConfig<TService>(this IServiceCollection services, IConfiguration configuration)
+		where TService : class
 	{
 		var config = configuration.GetConfig<TService>();
 		services.AddSingleton(config);
@@ -122,7 +125,8 @@ public static class StartupHelper
 		return config;
 	}
 
-	public static bool TryGetConfig<TService>(this IConfiguration configuration, out TService? config) where TService : class
+	public static bool TryGetConfig<TService>(this IConfiguration configuration, out TService? config)
+		where TService : class
 	{
 		config = configuration.GetSection(typeof(TService).Name).Get<TService>();
 		if (config == null)
@@ -131,7 +135,8 @@ public static class StartupHelper
 		return true;
 	}
 
-	public static IServiceCollection AddOptions<TOptions>(this IServiceCollection services, IConfiguration configuration) where TOptions : class
+	public static IServiceCollection AddOptions<TOptions>(this IServiceCollection services, IConfiguration configuration)
+		where TOptions : class
 	{
 		return services.Configure<TOptions>(configuration.GetSection(typeof(TOptions).Name));
 	}

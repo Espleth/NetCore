@@ -1,6 +1,10 @@
 ﻿namespace Anycode.NetCore.ApiTemplate.Services.LastActivities;
 
-public class LastActivitiesJob(LastActivitiesService lastActivitiesService, AppDbContext db, ILogger<LastActivitiesJob> log) : BaseJob<LastActivitiesJob>(log)
+public class LastActivitiesJob(
+	LastActivitiesService lastActivitiesService,
+	AppDbContext db,
+	ILogger<LastActivitiesJob> log)
+	: BaseJob<LastActivitiesJob>(log)
 {
 	public override async Task ExecuteAsync(CancellationToken ct)
 	{

@@ -9,7 +9,8 @@ public class AppException : ApiException
 
 	public override int HttpCode => GetStatusCode();
 	public override ErrorInfo Error => new((int)ErrorCode, ErrorCode.ToString(), ErrorMessage);
-	public override List<ErrorInfo> AdditionalErrors => AdditionalErrorCodes.Select(x => new ErrorInfo((int)x, x.ToString(), x.GetName())).ToList();
+	public override List<ErrorInfo> AdditionalErrors =>
+		AdditionalErrorCodes.Select(x => new ErrorInfo((int)x, x.ToString(), x.GetName())).ToList();
 
 	private ErrorCode ErrorCode { get; }
 	private string ErrorMessage { get; }

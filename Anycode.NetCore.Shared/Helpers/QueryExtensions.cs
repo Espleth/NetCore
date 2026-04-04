@@ -22,7 +22,8 @@ public static class QueryExtensions
 		return query.Skip(paging.Skip).Take(paging.Take);
 	}
 
-	public static async Task<QueryableList<T>> ToQueryableListAsync<T>(this IQueryable<T> query, PagingQuery paging, CancellationToken ct)
+	public static async Task<QueryableList<T>> ToQueryableListAsync<T>(this IQueryable<T> query,
+		PagingQuery paging, CancellationToken ct)
 	{
 		var total = await query.CountAsync(ct);
 		if (total == 0)
