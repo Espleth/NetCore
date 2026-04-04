@@ -1,6 +1,7 @@
 namespace Anycode.NetCore.DatabaseTemplate;
 
-public class AppDbContext(DbContextOptions options) : IdentityUserContext<UserEntity, Guid>(options), IDataProtectionKeyContext
+public class AppDbContext(DbContextOptions options)
+	: IdentityUserContext<UserEntity, Guid>(options), IDataProtectionKeyContext
 {
 	public override DbSet<UserEntity> Users => Set<UserEntity>();
 	public DbSet<DataProtectionKey> DataProtectionKeys => Set<DataProtectionKey>();

@@ -2,7 +2,9 @@
 
 public static class AuthHelper
 {
-	public static JwtTokenInfo GenerateToken<T>(ISecurityUser<T> user, JwtConfig jwtConfig, TimeSpan? tokenLifetime = null) where T : notnull
+	public static JwtTokenInfo GenerateToken<T>(ISecurityUser<T> user,
+		JwtConfig jwtConfig, TimeSpan? tokenLifetime = null)
+		where T : notnull
 	{
 		var tokenBuilder = new JwtTokenBuilder(JwtTokenBuilder.CreateSecurityKey(jwtConfig.SecretKey),
 			jwtConfig.ValidIssuer, jwtConfig.ValidAudience);

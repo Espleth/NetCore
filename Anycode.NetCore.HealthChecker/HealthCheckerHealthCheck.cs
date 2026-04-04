@@ -2,7 +2,8 @@
 
 public class HealthCheckerHealthCheck(NpgsqlDataSource dataSource, HealthCheckerConfig config) : IHealthCheck
 {
-	public async Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext healthCheckContext, CancellationToken ct = default)
+	public async Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext healthCheckContext,
+		CancellationToken ct = default)
 	{
 		var lastUpdate = await GetLastUpdateDateAsync(ct);
 		return HealthCheckHelper.TimeHealthCheck(config.Name, lastUpdate, TimeSpan.FromMinutes(15), TimeSpan.FromHours(1));

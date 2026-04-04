@@ -4,7 +4,8 @@ public static class TimeHelpers
 {
 	extension(DateTimeOffset)
 	{
-		public static DateTimeOffset UtcCurrentMonth => new(DateTimeOffset.UtcNow.Year, DateTimeOffset.UtcNow.Month, 1, 0, 0, 0, TimeSpan.Zero);
+		public static DateTimeOffset UtcCurrentMonth
+			=> new(DateTimeOffset.UtcNow.Year, DateTimeOffset.UtcNow.Month, 1, 0, 0, 0, TimeSpan.Zero);
 	}
 
 	extension(DateTimeOffset dto)

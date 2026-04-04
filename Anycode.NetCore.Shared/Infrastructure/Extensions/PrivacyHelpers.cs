@@ -5,7 +5,9 @@ public static class PrivacyHelper
 	public static string HideEmail(this string email)
 	{
 		var parts = email.Split('@');
-		return parts.Length < 2 ? email.HideSensitiveData() : $"{parts[0].HideSensitiveData()}@{parts[1].HideSensitiveData()}";
+		return parts.Length < 2
+			? email.HideSensitiveData()
+			: $"{parts[0].HideSensitiveData()}@{parts[1].HideSensitiveData()}";
 	}
 
 	/// <summary>

@@ -1,6 +1,7 @@
 ﻿namespace Anycode.NetCore.Shared.Services;
 
-public abstract class BaseUserContext<TId>(IHttpContextAccessor httpContextAccessor) where TId : struct, IEquatable<TId>
+public abstract class BaseUserContext<TId>(IHttpContextAccessor httpContextAccessor)
+	where TId : struct, IEquatable<TId>
 {
 	private CurrentUser? _currentUser;
 	private HttpContext HttpContext => httpContextAccessor.HttpContext ?? throw new Exception("HttpContext is null");

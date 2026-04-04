@@ -5,7 +5,8 @@
 /// </summary>
 public class OpenApiShowHeadersTransformer : IOpenApiOperationTransformer
 {
-	public Task TransformAsync(OpenApiOperation operation, OpenApiOperationTransformerContext context, CancellationToken ct)
+	public Task TransformAsync(OpenApiOperation operation, OpenApiOperationTransformerContext context,
+		CancellationToken ct)
 	{
 		operation.Parameters ??= new List<IOpenApiParameter>();
 

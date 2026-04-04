@@ -5,7 +5,8 @@
 /// </summary>
 public class OpenApiDateTimeTransformer : IOpenApiSchemaTransformer
 {
-	public Task TransformAsync(OpenApiSchema schema, OpenApiSchemaTransformerContext context, CancellationToken cancellationToken)
+	public Task TransformAsync(OpenApiSchema schema, OpenApiSchemaTransformerContext context,
+		CancellationToken cancellationToken)
 	{
 		if (schema.Format != "date-time")
 			return Task.CompletedTask;

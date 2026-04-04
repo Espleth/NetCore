@@ -2,7 +2,8 @@ namespace Anycode.NetCore.Shared.Helpers;
 
 public static class IdsGenerator
 {
-	public static async Task<string> GenerateRandomUsernameAsync<TUser, TKey>(DbSet<TUser> usersSet, CancellationToken ct) where TUser : IdentityUser<TKey>
+	public static async Task<string> GenerateRandomUsernameAsync<TUser, TKey>(DbSet<TUser> usersSet, CancellationToken ct)
+		where TUser : IdentityUser<TKey>
 		where TKey : IEquatable<TKey>
 	{
 		var random = new Random();

@@ -1,6 +1,9 @@
 ﻿namespace Anycode.NetCore.Shared.Services.ScribeHttpClient;
 
-public class ScribeHttpBetweenRequestsRatelimit(TimeSpan delayBetweenRequests, TimeSpan? delayBetweenErrorRequests = null) : IScribeHttpRatelimit
+public class ScribeHttpBetweenRequestsRatelimit(
+	TimeSpan delayBetweenRequests,
+	TimeSpan? delayBetweenErrorRequests = null)
+	: IScribeHttpRatelimit
 {
 	private readonly TimeSpan _delayBetweenErrorRequests = delayBetweenErrorRequests ?? delayBetweenRequests;
 

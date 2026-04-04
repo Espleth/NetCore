@@ -1,6 +1,7 @@
 namespace Anycode.NetCore.Shared.Infrastructure.EndpointFilters;
 
-public class AuthFilter<TId>(IUserStampCacheService<TId> usersStampsCache, ILogger<AuthFilter<TId>> log) : IEndpointFilter where TId : struct
+public class AuthFilter<TId>(IUserStampCacheService<TId> usersStampsCache, ILogger<AuthFilter<TId>> log)
+	: IEndpointFilter where TId : struct
 {
 	private const string TypeStamp = "jti";
 

@@ -103,7 +103,8 @@ public static class SpreadsheetsHelper
 
 		while (await csv.ReadAsync())
 		{
-			var row = new Dictionary<string, string?>(ignoreCase ? StringComparer.InvariantCultureIgnoreCase : StringComparer.InvariantCulture);
+			var row = new Dictionary<string, string?>(
+				ignoreCase ? StringComparer.InvariantCultureIgnoreCase : StringComparer.InvariantCulture);
 
 			foreach (var header in headers)
 			{
@@ -136,7 +137,8 @@ public static class SpreadsheetsHelper
 		var dataRows = worksheet.RowsUsed().Skip(1);
 		foreach (var dataRow in dataRows)
 		{
-			var row = new Dictionary<string, string?>(ignoreCase ? StringComparer.InvariantCultureIgnoreCase : StringComparer.InvariantCulture);
+			var row = new Dictionary<string, string?>(
+				ignoreCase ? StringComparer.InvariantCultureIgnoreCase : StringComparer.InvariantCulture);
 
 			var cellIndex = 0;
 			foreach (var cell in dataRow.CellsUsed())

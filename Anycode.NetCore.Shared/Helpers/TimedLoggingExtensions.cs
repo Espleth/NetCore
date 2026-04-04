@@ -10,7 +10,8 @@ public static class TimedLoggingExtensions
 	/// <summary>
 	/// Fatal log but only once per given time interval, otherwise log as Error
 	/// </summary>
-	public static void FatalWithInterval(this ILogger log, string logKey, TimeSpan interval, [StructuredMessageTemplate] string? message, params object?[] args)
+	public static void FatalWithInterval(this ILogger log, string logKey, TimeSpan interval,
+		[StructuredMessageTemplate] string? message, params object?[] args)
 	{
 		var now = DateTimeOffset.UtcNow;
 		var lastLoggedTime = _lastLoggedTimes.GetOrAdd(logKey, DateTimeOffset.MinValue);

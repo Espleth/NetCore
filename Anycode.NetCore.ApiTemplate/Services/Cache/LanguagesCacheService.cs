@@ -1,10 +1,11 @@
 ﻿namespace Anycode.NetCore.ApiTemplate.Services.Cache;
 
-public class LanguagesCacheService(IDbContextFactory<AppDbContext> dbFactory) : EntityCacheService<int, LanguageEntity, AppDbContext>(dbFactory)
+public class LanguagesCacheService(IDbContextFactory<AppDbContext> dbFactory)
+	: EntityCacheService<int, LanguageEntity, AppDbContext>(dbFactory)
 {
 	protected override IQueryable<LanguageEntity> GetEntities(AppDbContext db) => db.Languages;
 
-	private static FrozenDictionary<string, LanguageEntity> _cacheByCodes = FrozenDictionary<string, LanguageEntity>.Empty;
+	private static FrozenDictionary<string, LanguageEntity> _cacheByCodes= FrozenDictionary<string, LanguageEntity>.Empty;
 
 	public override async Task UpdateAllEntitiesAsync(CancellationToken ct)
 	{

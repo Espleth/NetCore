@@ -9,11 +9,12 @@ public static class ClaimsExtensions
 		return TryGetClaimValue(principal, ClaimTypeId, out id);
 	}
 
-	private static bool TryGetClaimValue<T>(this ClaimsPrincipal principal, string claimType, out T? value) where T : struct, IEquatable<T>
+	private static bool TryGetClaimValue<T>(this ClaimsPrincipal principal, string claimType, out T? value)
+		where T : struct, IEquatable<T>
 	{
 		var claim = principal.Claims.FirstOrDefault(x => x.Type == claimType);
 
-		if (claim != null && SystemHelpers.TryParse<T>(claim.Value, out var claimValue) && !claimValue.Equals(default(T)))
+		if (claim != null && SystemHelpers.TryParse<T>(claim.Value, out var claimValue) && !claimValue.Equals(default))
 		{
 			value = claimValue;
 			return true;

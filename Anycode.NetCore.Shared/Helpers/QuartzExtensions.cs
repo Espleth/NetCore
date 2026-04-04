@@ -5,7 +5,8 @@ namespace Anycode.NetCore.Shared.Helpers;
 
 public static class QuartzExtensions
 {
-	public static void AddJobIfPresent<TJob>(this IServiceCollectionQuartzConfigurator quartz, IStartupLogger log, string? cron, string? jobName = null)
+	public static void AddJobIfPresent<TJob>(this IServiceCollectionQuartzConfigurator quartz,
+		IStartupLogger log, string? cron, string? jobName = null)
 		where TJob : BaseJob<TJob>
 	{
 		jobName ??= typeof(TJob).Name; // nameof is not working for generic types
