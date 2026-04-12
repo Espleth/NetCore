@@ -15,7 +15,7 @@ public class ScribeHttpClient
 	private readonly ScribeRetryPolicy _retryPolicy;
 	private readonly List<IScribeHttpSaver> _savers;
 	private readonly ILogger<ScribeHttpClient> _log;
-	private readonly IScribeHttpRatelimit? _rateLimit;
+	private readonly IScribeHttpRateLimit? _rateLimit;
 	private readonly LogLevel _minLogLevel;
 
 	/// <summary>
@@ -26,7 +26,7 @@ public class ScribeHttpClient
 		IHttpClientFactory? httpClientFactory = null,
 		string? httpClientName = null,
 		ScribeRetryPolicy? retryPolicy = null,
-		IScribeHttpRatelimit? rateLimit = null,
+		IScribeHttpRateLimit? rateLimit = null,
 		IEnumerable<IScribeHttpSaver>? savers = null,
 		TimeSpan? timeout = null,
 		LogLevel minLogLevel = LogLevel.Trace,

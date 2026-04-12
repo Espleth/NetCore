@@ -1,6 +1,6 @@
 ﻿namespace Anycode.NetCore.Shared.Services.ScribeHttpClient;
 
-public interface IScribeHttpRatelimit
+public interface IScribeHttpRateLimit
 {
 	Task WaitRatelimitAsync(bool isRetry, CancellationToken ct);
 }
