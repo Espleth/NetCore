@@ -30,6 +30,12 @@ public class SingleWorkingService
 			log?.Info("Starting {WorkName}...", workName);
 			await func();
 		}
+		catch (OperationCanceledException)
+		{
+			log?.Info("{WorkName} was cancelled.", workName);
+			if (throwOnError)
+				throw;
+		}
 		catch (Exception e)
 		{
 			var level = isFatal ? LogLevel.Critical : LogLevel.Error;

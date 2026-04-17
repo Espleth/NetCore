@@ -16,6 +16,10 @@ public abstract class BaseConsumer<T, TMessage>(ILogger<T> log) : IConsumer<TMes
 				Message = context.Message,
 			}, context.CancellationToken);
 		}
+		catch (OperationCanceledException) when (context.CancellationToken.IsCancellationRequested)
+		{
+			throw;
+		}
 		catch (Exception e)
 		{
 			log.Error(e, "Error while consuming message {MessageName}", nameof(TMessage));

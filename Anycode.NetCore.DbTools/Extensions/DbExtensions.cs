@@ -11,7 +11,7 @@ public static class DbExtensions
 			var builder = new DbContextOptionsBuilder<TDbContext>();
 			builder.UseNpgsql(connectionString, options =>
 			{
-				options.MigrationsAssembly(Assembly.GetExecutingAssembly().GetName().Name);
+				options.MigrationsAssembly(typeof(TDbContext).Assembly.GetName().Name);
 				mapEnums(options);
 			});
 			builder.EnableSensitiveDataLogging();
