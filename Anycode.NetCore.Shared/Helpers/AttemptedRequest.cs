@@ -25,6 +25,10 @@ public static class AttemptedRequest
 			{
 				return await func();
 			}
+			catch (OperationCanceledException) when (ct.IsCancellationRequested)
+			{
+				throw;
+			}
 			catch (Exception e)
 			{
 				if (allowedExceptions != null && allowedExceptions.Contains(e.GetType()))
@@ -63,6 +67,10 @@ public static class AttemptedRequest
 		{
 			var result = await ExecuteAsync(func, log, attemptsCount, secondsBetweenAttempts, doubleDelayEachAttempt, null, ct);
 			return (true, result);
+		}
+		catch (OperationCanceledException) when (ct.IsCancellationRequested)
+		{
+			throw;
 		}
 		catch (Exception e)
 		{

@@ -26,6 +26,10 @@ public abstract class BaseJob<T>(ILogger<T> log) : IJob where T : BaseJob<T>
 				await ExecuteAsync(context.CancellationToken);
 			}
 		}
+		catch (OperationCanceledException) when (context.CancellationToken.IsCancellationRequested)
+		{
+			log.Info("Job {JobType} was cancelled", JobName);
+		}
 		catch (Exception e)
 		{
 			log.Fatal(e, "Failed to execute job: {JobType}", JobName);

@@ -1,7 +1,7 @@
 namespace Anycode.NetCore.Shared.Services.Cache;
 
 public class CacheWarmupHostedService(IServiceProvider serviceProvider, ILogger<CacheWarmupHostedService> log)
-	: IHostedService
+	: IHostedService, IAsyncDisposable
 {
 	private Timer? _updateTimer;
 	private static readonly AsyncLocker _locker = new();
@@ -43,14 +43,27 @@ public class CacheWarmupHostedService(IServiceProvider serviceProvider, ILogger<
 				}
 			}
 		}
+		catch (OperationCanceledException) when (ct.IsCancellationRequested)
+		{
+			// Normal shutdown
+		}
 		catch (Exception e)
 		{
 			log.Error(e, "Error during cache update");
 		}
 	}
 
-	public Task StopAsync(CancellationToken ct)
+	public async Task StopAsync(CancellationToken ct)
 	{
-		return Task.CompletedTask;
+		await DisposeAsync();
+	}
+
+	public async ValueTask DisposeAsync()
+	{
+		if (_updateTimer != null)
+		{
+			await _updateTimer.DisposeAsync();
+			_updateTimer = null;
+		}
 	}
 }

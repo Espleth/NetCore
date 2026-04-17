@@ -16,6 +16,10 @@ public class EmailQueueService(IPublishEndpoint publisher, ILogger<EmailQueueSer
 			};
 			await publisher.Publish(request, ct);
 		}
+		catch (OperationCanceledException) when (ct.IsCancellationRequested)
+		{
+			throw;
+		}
 		catch (Exception e)
 		{
 			if (throwOnError)

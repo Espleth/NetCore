@@ -17,7 +17,7 @@ public class ExceptionHandlingMiddleware(
 			if (exception is OperationCanceledException)
 			{
 				context.Response.StatusCode = StatusCodes.Status400BadRequest;
-				context.Features.Set(new LogErrorFeature(nameof(OperationCanceledException)));
+				context.Features.Set(new LogErrorFeature($"{nameof(OperationCanceledException)} (probably client disconnect)"));
 				await WriteProblemDetailsAsync(context, exception);
 			}
 			else if (exception is BadHttpRequestException)

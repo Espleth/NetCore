@@ -86,9 +86,19 @@ public class ScribeHttpClient
 	{
 		var hash = GetRequestHash(request);
 
-		_log.Log(LogLevel.Trace, _minLogLevel,
-			"Executing http request to {BaseUrl}/{RequestResource} with parameters: {Parameters}. Request hash: {RequestHash}",
-			_client.Options.BaseUrl, request.Resource, string.Join(", ", request.Parameters.Select(x => $"{x.Name}={x.Value}")), hash);
+		if (_client.Options.BaseUrl != null)
+		{
+			_log.Log(LogLevel.Trace, _minLogLevel,
+				"Executing http request to {BaseUrl}/{RequestResource} with parameters: {Parameters}. Request hash: {RequestHash}",
+				_client.Options.BaseUrl, request.Resource, string.Join(", ", request.Parameters.Select(x => $"{x.Name}={x.Value}")), hash);
+		}
+		else
+		{
+			_log.Log(LogLevel.Trace, _minLogLevel,
+				"Executing http request to {RequestResource} with parameters: {Parameters}. Request hash: {RequestHash}",
+				request.Resource, string.Join(", ", request.Parameters.Select(x => $"{x.Name}={x.Value}")), hash);
+		}
+
 		foreach (var saver in _savers.Where(x => x.CanReturnResponse))
 		{
 			var response = await saver.GetResponseAsync<T>(hash, ct);
@@ -136,6 +146,10 @@ public class ScribeHttpClient
 				}
 
 				break;
+			}
+			catch (OperationCanceledException) when (ct.IsCancellationRequested)
+			{
+				throw;
 			}
 			catch (Exception e)
 			{
@@ -206,7 +220,7 @@ public class ScribeHttpClient
 		{
 			var response = await ExecuteAsync(request, isRetry, ct);
 			return new ScribeHttpResponse(response);
-		});
+		}, ct);
 	}
 
 	/// <summary>
@@ -224,7 +238,8 @@ public class ScribeHttpClient
 		return result;
 	}
 
-	private async Task<TResponse> ExecuteWithRetriesAsync<TResponse>(string hash, Func<bool, Task<TResponse>> executeFunc)
+	private async Task<TResponse> ExecuteWithRetriesAsync<TResponse>(string hash,
+		Func<bool, Task<TResponse>> executeFunc, CancellationToken ct)
 		where TResponse : ScribeHttpResponse
 	{
 		var triesCount = _retryPolicy.RetriesCount + 1;
@@ -248,6 +263,10 @@ public class ScribeHttpClient
 				}
 
 				return response;
+			}
+			catch (OperationCanceledException) when (ct.IsCancellationRequested)
+			{
+				throw;
 			}
 			catch (Exception e)
 			{
