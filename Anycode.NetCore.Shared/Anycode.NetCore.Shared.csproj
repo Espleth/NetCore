@@ -29,8 +29,8 @@
         <PackageReference Include="JetBrains.Annotations" Version="2025.2.4"/>
         <PackageReference Include="MassTransit" Version="8.5.9" />
         <PackageReference Include="MassTransit.RabbitMQ" Version="8.5.9" />
-        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.6" />
-        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.6" />
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.7" />
+        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.7" />
         <PackageReference Include="Microsoft.OpenApi" Version="2.7.3" />
         <PackageReference Include="NLog.Targets.Seq" Version="4.0.2"/>
         <PackageReference Include="NLog.Web.AspNetCore" Version="6.1.2"/>
