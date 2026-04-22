@@ -10,7 +10,7 @@ public class GetUserRoles : IEndpoint
 			.WithTags("User");
 	}
 
-	private static Task<UserRoleResponse> HandleAsync(AppDbContext db, UserContext userContext, CancellationToken ct)
+	public static Task<UserRoleResponse> HandleAsync(AppDbContext db, UserContext userContext, CancellationToken ct)
 	{
 		return db.Users.Where(x => x.Id == userContext.UserIdAuthorized)
 			.Select(x => new UserRoleResponse
