@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <LangVersion>default</LangVersion>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <NoWarn>$(NoWarn);1591</NoWarn>
+
+        <!-- NuGet -->
+        <PackageId>Anycode.NetCore.TestsShared</PackageId>
+        <Description>Shared test infrastructure: reusable Testcontainers-backed PostgreSQL fixture for EF Core integration tests.</Description>
+        <PackageTags>testing;testcontainers;postgresql;efcore;xunit</PackageTags>
+        <IsPackable>true</IsPackable>
+        <Version>1.0.0</Version>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.7" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="10.0.7" />
+        <PackageReference Include="Testcontainers.PostgreSql" Version="4.11.0" />
+        <PackageReference Include="xunit.extensibility.core" Version="2.9.3" />
+    </ItemGroup>
+
+</Project>

@@ -2,6 +2,7 @@
 
 global using System.ComponentModel.DataAnnotations;
 global using System.ComponentModel.DataAnnotations.Schema;
+global using System.Data;
 global using System.Globalization;
 global using Microsoft.AspNetCore.Identity;
 global using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -22,3 +23,4 @@ global using Anycode.NetCore.DatabaseTemplate.Extensions;
 global using Anycode.NetCore.DbTools.Entities;
 global using Anycode.NetCore.DbTools.Extensions;
 global using Anycode.NetCore.DbTools.Interfaces;
+global using Npgsql;

@@ -8,6 +8,12 @@ var (app, _) = StartupHelper.CreateWebApplication(args, ConfigureServices);
 ConfigureEndpoints();
 ConfigureApplication();
 
+// Ideally use separate MigrationService, because of:
+// - faster startup
+// - less chance of something going wrong during migration and leaving the app in broken state
+// - migrations race in case of multiple instances starting at the same time
+await app.Services.MigrateAndSeedAppDbAsync();
+
 await app.LaunchAsync();
 return;
 
