@@ -31,6 +31,7 @@ public class ScribeHttpClient
 		TimeSpan? timeout = null,
 		LogLevel minLogLevel = LogLevel.Trace,
 		ScribeSerializerType serializerType = ScribeSerializerType.Json,
+		JsonIgnoreCondition jsonIgnoreCondition = JsonIgnoreCondition.Never,
 		string csvDelimiter = ",")
 	{
 		_log = log;
@@ -49,6 +50,7 @@ public class ScribeHttpClient
 					RespectNullableAnnotations = true,
 					PropertyNameCaseInsensitive = true,
 					NumberHandling = JsonNumberHandling.AllowReadingFromString,
+					DefaultIgnoreCondition = jsonIgnoreCondition,
 				});
 				break;
 			case ScribeSerializerType.Csv:
