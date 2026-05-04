@@ -1,3 +1,5 @@
+#pragma warning disable CA2254
+
 namespace Anycode.NetCore.Shared.Helpers;
 
 /// <summary>
@@ -13,16 +15,25 @@ public static class TimedLoggingExtensions
 	public static void FatalWithInterval(this ILogger log, string logKey, TimeSpan interval,
 		[StructuredMessageTemplate] string? message, params object?[] args)
 	{
+		log.FatalWithInterval(logKey, interval, null, message, args);
+	}
+
+	/// <summary>
+	/// Fatal log but only once per given time interval, otherwise log as Error
+	/// </summary>
+	public static void FatalWithInterval(this ILogger log, string logKey, TimeSpan interval,
+		Exception? exception, [StructuredMessageTemplate] string? message, params object?[] args)
+	{
 		var now = DateTimeOffset.UtcNow;
 		var lastLoggedTime = _lastLoggedTimes.GetOrAdd(logKey, DateTimeOffset.MinValue);
 		if (now - lastLoggedTime >= interval)
 		{
-			log.Fatal(message, args);
+			log.Fatal(exception, message, args);
 			_lastLoggedTimes[logKey] = now;
 		}
 		else
 		{
-			log.Error(message, args);
+			log.Error(exception, message, args);
 		}
 	}
 }
