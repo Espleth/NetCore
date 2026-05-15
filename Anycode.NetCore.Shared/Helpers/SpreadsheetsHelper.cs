@@ -1,13 +1,16 @@
 using CsvHelper;
 using CsvHelper.Configuration;
 using ClosedXML.Excel;
-using Anycode.NetCore.Shared.Models;
 
 namespace Anycode.NetCore.Shared.Helpers;
 
 public static class SpreadsheetsHelper
 {
-	public static MemoryStream WriteCsvToStream(List<string> headers, List<List<object>> rows)
+	private const int MaxWorksheetNameLength = 31;
+	private const string DefaultWorksheetName = "Sheet1";
+	private static readonly char[] _invalidWorksheetNameChars = [':', '\\', '/', '?', '*', '[', ']'];
+
+	public static MemoryStream WriteCsvToStream(List<string> headers, List<List<object?>> rows)
 	{
 		var stream = new MemoryStream();
 		using var writer = new StreamWriter(stream, Encoding.UTF8, leaveOpen: true);
@@ -21,9 +24,12 @@ public static class SpreadsheetsHelper
 		{
 			foreach (var value in row)
 			{
-				var field = value is CurrencyAmount ca
-					? $"{ca.Amount} {ca.CurrencySymbol}"
-					: value.ToString() ?? "";
+				var field = value switch
+				{
+					null => "",
+					CurrencyAmount ca => $"{ca.Amount} {ca.CurrencySymbol}",
+					_ => value.ToString() ?? "",
+				};
 				csv.WriteField(field);
 			}
 
@@ -38,7 +44,7 @@ public static class SpreadsheetsHelper
 	public static MemoryStream WriteXlsxToStream(string sheetName, List<string> headers, List<List<object>> rows)
 	{
 		using var workbook = new XLWorkbook();
-		var worksheet = workbook.Worksheets.Add(sheetName);
+		var worksheet = workbook.Worksheets.Add(GetValidWorksheetName(sheetName));
 
 		for (var i = 0; i < headers.Count; i++)
 			worksheet.Cell(1, i + 1).Value = headers[i];
@@ -77,6 +83,27 @@ public static class SpreadsheetsHelper
 		workbook.SaveAs(stream);
 		stream.Position = 0;
 		return stream;
+	}
+
+	private static string GetValidWorksheetName(string? sheetName)
+	{
+		if (string.IsNullOrWhiteSpace(sheetName))
+			return DefaultWorksheetName;
+
+		var name = sheetName.Trim();
+		var builder = new StringBuilder(name.Length);
+		foreach (var character in name)
+		{
+			builder.Append(_invalidWorksheetNameChars.Contains(character) || char.IsControl(character)
+				? ' '
+				: character);
+		}
+
+		name = builder.ToString().Trim(' ', '\'');
+		if (name.Length > MaxWorksheetNameLength)
+			name = name[..MaxWorksheetNameLength].Trim(' ', '\'');
+
+		return string.IsNullOrWhiteSpace(name) ? DefaultWorksheetName : name;
 	}
 
 	public static async Task<List<Dictionary<string, string?>>> ReadCsvFileAsync(IFormFile file, bool ignoreCase = true)
