@@ -41,7 +41,7 @@ public static class SpreadsheetsHelper
 		return stream;
 	}
 
-	public static MemoryStream WriteXlsxToStream(string sheetName, List<string> headers, List<List<object>> rows)
+	public static MemoryStream WriteXlsxToStream(string sheetName, List<string> headers, List<List<object?>> rows)
 	{
 		using var workbook = new XLWorkbook();
 		var worksheet = workbook.Worksheets.Add(GetValidWorksheetName(sheetName));
