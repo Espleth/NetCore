@@ -14,6 +14,12 @@ public class AppDbContext(DbContextOptions options)
 	public DbSet<RoleEntity> Roles => Set<RoleEntity>();
 	public DbSet<RolePermissionEntity> RolesPermissions => Set<RolePermissionEntity>();
 
+	protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
+	{
+		base.ConfigureConventions(configurationBuilder);
+		configurationBuilder.ApplyUtcDateTimeOffsetConverter();
+	}
+
 	protected override void OnModelCreating(ModelBuilder builder)
 	{
 		base.OnModelCreating(builder);

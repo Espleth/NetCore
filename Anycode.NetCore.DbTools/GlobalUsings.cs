@@ -9,4 +9,5 @@ global using Microsoft.Extensions.DependencyInjection;
 global using Anycode.NetCore.DbTools.Entities;
 global using Anycode.NetCore.DbTools.Interfaces;
 global using Microsoft.EntityFrameworkCore.Infrastructure;
+global using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 global using Npgsql.EntityFrameworkCore.PostgreSQL.Infrastructure;
