@@ -6,10 +6,11 @@ public class OptionalEmailUserValidator<TUser>(IdentityErrorDescriber? errors = 
 	public override async Task<IdentityResult> ValidateAsync(UserManager<TUser> manager, TUser user)
 	{
 		var result = await base.ValidateAsync(manager, user);
-		if (result.Succeeded || !string.IsNullOrWhiteSpace(await manager.GetEmailAsync(user)))
+		if (result.Succeeded || await manager.GetEmailAsync(user) != null)
 			return result;
 
-		var errors = result.Errors.Where(e => e.Code != "InvalidEmail").ToList();
+		// Optional email means null only; an empty string must remain an invalid email.
+		var errors = result.Errors.Where(e => e.Code != nameof(IdentityErrorDescriber.InvalidEmail)).ToList();
 		return errors.Count > 0 ? IdentityResult.Failed(errors.ToArray()) : IdentityResult.Success;
 	}
 }
