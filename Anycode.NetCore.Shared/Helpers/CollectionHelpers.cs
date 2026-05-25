@@ -32,6 +32,11 @@ public static class CollectionHelpers
 		}
 	}
 
+	public static int DistinctCount<T>(this IEnumerable<T> source)
+	{
+		return source.Distinct().Count();
+	}
+
 	public static ConcurrentDictionary<TKey, TValue> ToConcurrentDictionary<TKey, TValue>(
 		this IEnumerable<TValue> values, Func<TValue, TKey> keySelector) where TKey : notnull
 	{
