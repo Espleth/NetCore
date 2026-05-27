@@ -8,6 +8,7 @@ public static class SpreadsheetsHelper
 {
 	private const int MaxWorksheetNameLength = 31;
 	private const string DefaultWorksheetName = "Sheet1";
+	private static readonly string[] _csvDelimiterCandidates = [",", ";", "\t", "|"];
 	private static readonly char[] _invalidWorksheetNameChars = [':', '\\', '/', '?', '*', '[', ']'];
 
 	public static MemoryStream WriteCsvToStream(List<string> headers, List<List<object?>> rows)
@@ -106,18 +107,22 @@ public static class SpreadsheetsHelper
 		return string.IsNullOrWhiteSpace(name) ? DefaultWorksheetName : name;
 	}
 
-	public static async Task<List<Dictionary<string, string?>>> ReadCsvFileAsync(IFormFile file, bool ignoreCase = true)
+	public static async Task<List<Dictionary<string, string?>>> ReadCsvFileAsync(IFormFile file, bool ignoreCase = true, string? delimiter = null)
 	{
+		await using var stream = file.OpenReadStream();
+		using var reader = new StreamReader(stream);
+		var content = await reader.ReadToEndAsync();
+
 		var config = new CsvConfiguration(CultureInfo.InvariantCulture)
 		{
 			HeaderValidated = null,
 			MissingFieldFound = null,
-			BadDataFound = null
+			BadDataFound = null,
+			Delimiter = string.IsNullOrWhiteSpace(delimiter) ? DetectCsvDelimiter(content) : delimiter,
 		};
 
-		await using var stream = file.OpenReadStream();
-		using var reader = new StreamReader(stream);
-		using var csv = new CsvReader(reader, config);
+		using var csvReader = new StringReader(content);
+		using var csv = new CsvReader(csvReader, config);
 
 		var rows = new List<Dictionary<string, string?>>();
 
@@ -142,6 +147,56 @@ public static class SpreadsheetsHelper
 		}
 
 		return rows;
+	}
+
+	private static string DetectCsvDelimiter(string content)
+	{
+		// Detect delimiter by scoring common candidates on the first non-empty line.
+		// Delimiters inside quoted CSV fields are ignored, so values like "London, Baker Street" do not bias detection.
+		var line = content
+			.Split(["\r\n", "\n", "\r"], StringSplitOptions.RemoveEmptyEntries)
+			.FirstOrDefault(x => !string.IsNullOrWhiteSpace(x));
+		if (line == null)
+			return ",";
+
+		var best = _csvDelimiterCandidates
+			.Select(delimiter => new
+			{
+				Delimiter = delimiter,
+				Score = CountDelimiterOutsideQuotes(line, delimiter),
+			})
+			.OrderByDescending(x => x.Score)
+			.First();
+
+		return best.Score > 0 ? best.Delimiter : ",";
+	}
+
+	private static int CountDelimiterOutsideQuotes(string line, string delimiter)
+	{
+		var count = 0;
+		var inQuotes = false;
+		for (var i = 0; i < line.Length; i++)
+		{
+			if (line[i] == '"')
+			{
+				if (inQuotes && i + 1 < line.Length && line[i + 1] == '"')
+				{
+					i++;
+					continue;
+				}
+
+				inQuotes = !inQuotes;
+				continue;
+			}
+
+			if (!inQuotes && line.AsSpan(i).StartsWith(delimiter, StringComparison.Ordinal))
+			{
+				count++;
+				i += delimiter.Length - 1;
+			}
+		}
+
+		return count;
 	}
 
 	public static async Task<List<Dictionary<string, string?>>> ReadXlsxFileAsync(IFormFile file, bool ignoreCase = true)
