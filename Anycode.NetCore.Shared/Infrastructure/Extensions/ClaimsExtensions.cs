@@ -6,7 +6,7 @@ public static class ClaimsExtensions
 
 	public static bool TryGetClaimId<T>(this ClaimsPrincipal principal, out T? id) where T : struct, IEquatable<T>
 	{
-		return TryGetClaimValue(principal, ClaimTypeId, out id);
+		return principal.TryGetClaimValue(ClaimTypeId, out id);
 	}
 
 	private static bool TryGetClaimValue<T>(this ClaimsPrincipal principal, string claimType, out T? value)

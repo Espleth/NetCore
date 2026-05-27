@@ -20,7 +20,7 @@ public class ScribeHttpFileSaver(bool canReturnResponse, string? filePath = null
 	{
 		var json = JsonSerializer.Serialize(response, _jsonOptions);
 		var path = GetPath(hash);
-		return Helpers.SystemHelpers.WriteAllTextWithFolderAsync(path, json, ct);
+		return SystemHelpers.WriteAllTextWithFolderAsync(path, json, ct);
 	}
 
 	public async Task<T?> GetResponseAsync<T>(string hash, CancellationToken ct) where T : class
