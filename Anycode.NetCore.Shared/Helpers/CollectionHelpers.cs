@@ -115,4 +115,9 @@ public static class CollectionHelpers
 	{
 		return ascending ? source.OrderBy(keySelector) : source.OrderByDescending(keySelector);
 	}
+
+	public static string AsString(this IEnumerable<char> chars)
+	{
+		return new string(chars.ToArray());
+	}
 }
