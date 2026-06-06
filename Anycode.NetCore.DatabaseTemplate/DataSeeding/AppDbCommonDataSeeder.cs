@@ -32,7 +32,7 @@ public static class AppDbCommonDataSeeder
 			},
 		});
 
-		// RolePermissionEntity имеет составной ключ (RoleId, Permission), поэтому AddRangeIfNotExists не подходит
+		// RolePermissionEntity has a composite key (RoleId, Permission), so AddRangeIfNotExists is not suitable
 		var rolePermissions = new List<RolePermissionEntity>
 		{
 			new()

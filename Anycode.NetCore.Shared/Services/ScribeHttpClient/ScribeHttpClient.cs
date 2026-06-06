@@ -17,6 +17,7 @@ public class ScribeHttpClient
 	private readonly ILogger<ScribeHttpClient> _log;
 	private readonly IScribeHttpRateLimit? _rateLimit;
 	private readonly LogLevel _minLogLevel;
+	private readonly HashSet<string> _sensitiveHeaders;
 
 	/// <summary>
 	/// RestSharp client that caches responses in memory (to not repeat them), file (for debugging), or anywhere else
@@ -32,12 +33,14 @@ public class ScribeHttpClient
 		LogLevel minLogLevel = LogLevel.Trace,
 		ScribeSerializerType serializerType = ScribeSerializerType.Json,
 		JsonIgnoreCondition jsonIgnoreCondition = JsonIgnoreCondition.Never,
-		string csvDelimiter = ",")
+		string csvDelimiter = ",",
+		IEnumerable<string>? sensitiveHeaders = null)
 	{
 		_log = log;
 		_rateLimit = rateLimit;
 		_retryPolicy = retryPolicy ?? new ScribeRetryPolicy(0);
 		_minLogLevel = minLogLevel;
+		_sensitiveHeaders = new HashSet<string>(sensitiveHeaders ?? [], StringComparer.OrdinalIgnoreCase);
 		_savers = savers?.ToList() ?? [];
 
 		ConfigureSerialization? configureSerialization;
@@ -92,13 +95,13 @@ public class ScribeHttpClient
 		{
 			_log.Log(LogLevel.Trace, _minLogLevel,
 				"Executing http request to {BaseUrl}/{RequestResource} with parameters: {Parameters}. Request hash: {RequestHash}",
-				_client.Options.BaseUrl, request.Resource, string.Join(", ", request.Parameters.Select(x => $"{x.Name}={x.Value}")), hash);
+				_client.Options.BaseUrl, request.Resource, FormatParameters(request), hash);
 		}
 		else
 		{
 			_log.Log(LogLevel.Trace, _minLogLevel,
 				"Executing http request to {RequestResource} with parameters: {Parameters}. Request hash: {RequestHash}",
-				request.Resource, string.Join(", ", request.Parameters.Select(x => $"{x.Name}={x.Value}")), hash);
+				request.Resource, FormatParameters(request), hash);
 		}
 
 		foreach (var saver in _savers.Where(x => x.CanReturnResponse))
@@ -216,7 +219,7 @@ public class ScribeHttpClient
 
 		_log.Log(LogLevel.Trace, _minLogLevel,
 			"Executing http request to {BaseUrl}/{RequestResource} with parameters: {Parameters}. Request hash: {RequestHash}",
-			_client.Options.BaseUrl, request.Resource, string.Join(", ", request.Parameters.Select(x => $"{x.Name}={x.Value}")), hash);
+			_client.Options.BaseUrl, request.Resource, FormatParameters(request), hash);
 
 		return await ExecuteWithRetriesAsync(hash, async isRetry =>
 		{
@@ -302,6 +305,20 @@ public class ScribeHttpClient
 			await _rateLimit.WaitRatelimitAsync(isRetry, ct);
 
 		return await _client.ExecuteAsync(request, ct);
+	}
+
+	private string FormatParameters(RestRequest request)
+	{
+		return string.Join(", ", request.Parameters.Select(FormatParameter));
+	}
+
+	// Mask values of headers configured as sensitive (e.g. auth tokens) when logging request parameters.
+	private string FormatParameter(Parameter parameter)
+	{
+		if (parameter.Name != null && _sensitiveHeaders.ContainsIIC(parameter.Name))
+			return $"{parameter.Name}=***";
+
+		return $"{parameter.Name}={parameter.Value}";
 	}
 
 	private static string GetRequestHash(RestRequest request)
