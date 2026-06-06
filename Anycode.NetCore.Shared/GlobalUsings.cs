@@ -57,3 +57,5 @@ global using Anycode.NetCore.Shared.Infrastructure.Middlewares;
 global using Anycode.NetCore.Shared.Models;
 global using Anycode.NetCore.Shared.Services;
 global using Anycode.NetCore.Shared.Services.Interfaces;
+global using ILogger = Microsoft.Extensions.Logging.ILogger;
+global using NLogLogger = NLog.ILogger;

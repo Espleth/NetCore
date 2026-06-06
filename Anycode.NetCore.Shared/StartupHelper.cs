@@ -2,8 +2,6 @@
 using NLog.Extensions.Logging;
 using NLog.Web;
 using StackExchange.Redis;
-using ILogger = Microsoft.Extensions.Logging.ILogger;
-using NLogLogger = NLog.ILogger;
 
 namespace Anycode.NetCore.Shared;
 
@@ -22,8 +20,7 @@ public static class StartupHelper
 		var (log, environment) = SetupEnvironment();
 
 		var builder = WebApplication.CreateBuilder(args);
-		builder.Configuration.AddJsonFile($"Config{Path.DirectorySeparatorChar}appsettings.{environment}.json", false);
-		builder.Configuration.AddEnvironmentVariables(); // Env vars always override JSON files (Aspire, Docker, etc.)
+		ConfigureAppConfiguration(builder.Configuration, environment, log);
 
 		// Explicit Kestrel endpoints from appsettings override ASPNETCORE_URLS.
 		// Under orchestrators (Aspire) re-point them to the assigned URL so ports match.
@@ -39,6 +36,37 @@ public static class StartupHelper
 
 		var app = builder.Build();
 		return (app, app.Logger);
+	}
+
+	// Configuration layering, lowest -> highest precedence:
+	//   1. Config/appsettings.json         committed, non-secret defaults (shared baseline)
+	//   2. Config/appsettings.{env}.json    committed, non-secret per-environment overrides
+	//   3. secrets source                   file mode: nothing extra (the legacy env file above also carries them);
+	//                                        vault mode: HashiCorp Vault (KV v2)
+	//   4. environment variables            always win, so orchestrators (Aspire, Docker) can override anything
+	//
+	// SECRETS_PROVIDER selects the secrets source: "file" (default, backward-compatible) or "vault".
+	// In file mode the per-environment file is REQUIRED (fail fast, same as before this switch existed);
+	// in vault mode it is optional because secrets come from Vault and the committed per-env file may be absent.
+	//
+	// Array gotcha: .NET merges same-key arrays across layers BY INDEX (it does not replace them). Keep any
+	// array-valued setting in exactly ONE layer (base OR a specific env file, never both) to avoid stale tails.
+	private static void ConfigureAppConfiguration(IConfigurationManager configuration, string? environment, NLogLogger log)
+	{
+		var secretsProvider = (Environment.GetEnvironmentVariable("SECRETS_PROVIDER") ?? "file").ToLowerInvariant();
+		var vaultMode = secretsProvider == "vault";
+
+		configuration.AddJsonFile($"Config{Path.DirectorySeparatorChar}appsettings.json", optional: true);
+
+		if (!string.IsNullOrEmpty(environment))
+			configuration.AddJsonFile($"Config{Path.DirectorySeparatorChar}appsettings.{environment}.json", optional: vaultMode);
+
+		if (vaultMode)
+			configuration.AddVaultSecrets(log);
+
+		configuration.AddEnvironmentVariables();
+
+		log.Info("Secrets provider: {SecretsProvider}", secretsProvider);
 	}
 
 	public static async Task LaunchAsync(this WebApplication app)
