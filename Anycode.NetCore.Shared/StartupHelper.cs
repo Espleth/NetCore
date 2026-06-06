@@ -146,7 +146,7 @@ public static class StartupHelper
 
 	public static IApplicationBuilder UseHealthChecksExt(this IApplicationBuilder app)
 	{
-		return app.UseHealthChecks("/health", new HealthCheckOptions // TODO[low] better way to restrict access
+		return app.UseHealthChecks("/health", new HealthCheckOptions
 		{
 			ResponseWriter = async (context, report) =>
 			{
