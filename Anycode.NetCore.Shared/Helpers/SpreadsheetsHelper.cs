@@ -207,36 +207,37 @@ public static class SpreadsheetsHelper
 
 		var rows = new List<Dictionary<string, string?>>();
 
-		var firstRow = worksheet.FirstRowUsed();
-		if (firstRow == null)
+		var headerRow = worksheet.FirstRowUsed();
+		if (headerRow == null)
 			return rows;
 
-		var headers = firstRow.CellsUsed().Select(cell => cell.GetString()).ToList();
+		// Map each header to its real column number. Data cells are read by their actual
+		// column instead of via CellsUsed(), which silently skips blank cells and would
+		// shift every following value into the wrong column when a cell is empty.
+		var headerColumns = headerRow.CellsUsed()
+			.Select(cell => (Column: cell.Address.ColumnNumber, Header: cell.GetString()))
+			.ToList();
 
-		if (headers.Count == 0)
+		if (headerColumns.Count == 0)
 			return rows;
 
-		var dataRows = worksheet.RowsUsed().Skip(1);
-		foreach (var dataRow in dataRows)
+		var lastRow = worksheet.LastRowUsed();
+		if (lastRow == null)
+			return rows;
+
+		// Iterate every row in range, including fully empty ones, so positions stay aligned
+		// with the spreadsheet and blank rows aren't silently dropped (the caller decides
+		// whether an empty row is an error).
+		for (var rowNumber = headerRow.RowNumber() + 1; rowNumber <= lastRow.RowNumber(); rowNumber++)
 		{
+			var dataRow = worksheet.Row(rowNumber);
 			var row = new Dictionary<string, string?>(
 				ignoreCase ? StringComparer.InvariantCultureIgnoreCase : StringComparer.InvariantCulture);
 
-			var cellIndex = 0;
-			foreach (var cell in dataRow.CellsUsed())
+			foreach (var (column, header) in headerColumns)
 			{
-				if (cellIndex < headers.Count)
-				{
-					row[headers[cellIndex]] = cell.GetString();
-				}
-
-				cellIndex++;
-			}
-
-			// Add missing columns as null
-			for (var i = cellIndex; i < headers.Count; i++)
-			{
-				row[headers[i]] = null;
+				var value = dataRow.Cell(column).GetString();
+				row[header] = string.IsNullOrEmpty(value) ? null : value;
 			}
 
 			rows.Add(row);

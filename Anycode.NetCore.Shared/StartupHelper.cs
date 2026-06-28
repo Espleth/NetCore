@@ -39,24 +39,31 @@ public static class StartupHelper
 	}
 
 	// Configuration layering, lowest -> highest precedence:
-	//   1. Config/appsettings.json         committed, non-secret defaults (shared baseline)
-	//   2. Config/appsettings.{env}.json    committed, non-secret per-environment overrides
-	//   3. secrets source                   file mode: nothing extra (the legacy env file above also carries them);
+	//   1. Config/appsettings.json         VAULT MODE ONLY: committed, non-secret defaults (shared baseline)
+	//   2. Config/appsettings.{env}.json    committed per-environment config (file mode: self-contained; vault mode: overrides)
+	//   3. secrets source                   file mode: nothing extra (the env file above also carries them);
 	//                                        vault mode: HashiCorp Vault (KV v2)
 	//   4. environment variables            always win, so orchestrators (Aspire, Docker) can override anything
 	//
 	// SECRETS_PROVIDER selects the secrets source: "file" (default, backward-compatible) or "vault".
-	// In file mode the per-environment file is REQUIRED (fail fast, same as before this switch existed);
-	// in vault mode it is optional because secrets come from Vault and the committed per-env file may be absent.
 	//
-	// Array gotcha: .NET merges same-key arrays across layers BY INDEX (it does not replace them). Keep any
-	// array-valued setting in exactly ONE layer (base OR a specific env file, never both) to avoid stale tails.
+	// File mode is the legacy behavior: the per-environment file is the ONLY config file (REQUIRED, fail fast) and
+	// base appsettings.json is NOT loaded. In legacy projects that base file is just a template, so layering it in
+	// would leak its values into the real config (same-key arrays merge BY INDEX, and sections the env file doesn't
+	// override - e.g. Kestrel HTTPS endpoints - bleed through). Vault mode instead loads the base as a shared
+	// non-secret baseline, with the (optional) per-env file and Vault secrets layered on top.
+	//
+	// Array gotcha (vault mode): .NET merges same-key arrays across layers BY INDEX (it does not replace them). Keep
+	// any array-valued setting in exactly ONE layer (base OR a specific env file, never both) to avoid stale tails.
 	private static void ConfigureAppConfiguration(IConfigurationManager configuration, string? environment, NLogLogger log)
 	{
 		var secretsProvider = (Environment.GetEnvironmentVariable("SECRETS_PROVIDER") ?? "file").ToLowerInvariant();
 		var vaultMode = secretsProvider == "vault";
 
-		configuration.AddJsonFile($"Config{Path.DirectorySeparatorChar}appsettings.json", optional: true);
+		// Vault-mode baseline only. In file mode this file is a template and must stay unloaded so the
+		// per-environment file behaves exactly as it did before Vault support existed.
+		if (vaultMode)
+			configuration.AddJsonFile($"Config{Path.DirectorySeparatorChar}appsettings.json", optional: true);
 
 		if (!string.IsNullOrEmpty(environment))
 			configuration.AddJsonFile($"Config{Path.DirectorySeparatorChar}appsettings.{environment}.json", optional: vaultMode);
