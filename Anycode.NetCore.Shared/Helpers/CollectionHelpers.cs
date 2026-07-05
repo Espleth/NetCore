@@ -92,6 +92,12 @@ public static class CollectionHelpers
 		}
 	}
 
+	public static IEnumerable<T> Except<T>(this IEnumerable<T> source, T item)
+	{
+		var comparer = EqualityComparer<T>.Default;
+		return source.Where(x => !comparer.Equals(x, item));
+	}
+
 	public static IOrderedQueryable<TSource> OrderBy<TSource, TKey>(
 		this IQueryable<TSource> source, Expression<Func<TSource, TKey>> keySelector, SortDirection direction)
 	{
