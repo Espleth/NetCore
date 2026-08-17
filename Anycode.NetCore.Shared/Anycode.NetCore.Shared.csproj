@@ -45,14 +45,14 @@
     </ItemGroup>
 
     <ItemGroup>
-        <None Update="Config\crawler-user-agents.json">
+        <!-- Packed as contentFiles so PackageReference consumers get them copied
+             to the output Config folder, same as with a ProjectReference -->
+        <None Update="Config\crawler-user-agents.json;Config\nlog.config;Config\nlog.common.config">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Config\nlog.config">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Config\nlog.common.config">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <Pack>true</Pack>
+            <PackagePath>contentFiles\any\any\</PackagePath>
+            <PackageCopyToOutput>true</PackageCopyToOutput>
+            <BuildAction>None</BuildAction>
         </None>
     </ItemGroup>
 
