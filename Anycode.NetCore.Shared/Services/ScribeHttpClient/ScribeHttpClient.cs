@@ -129,12 +129,14 @@ public class ScribeHttpClient
 					if (i == triesCount)
 					{
 						_log.Log(LogLevel.Trace, _minLogLevel, response.ErrorException,
-							"Returning failed http request with hash {RequestHash}. Response: {Response}", hash, content);
+							"Returning failed http request with hash {RequestHash}. Status: {StatusCode}. Response: {Response}",
+							hash, response.StatusCode, content);
 						return new ScribeHttpResponse<T>(response);
 					}
 
 					_log.Log(LogLevel.Warning, _minLogLevel, response.ErrorException,
-						"Failed to execute http request with hash {RequestHash}. Response: {Response}", hash, content);
+						"Failed to execute http request with hash {RequestHash}. Status: {StatusCode}. Response: {Response}",
+						hash, response.StatusCode, content);
 					continue;
 				}
 
@@ -258,12 +260,14 @@ public class ScribeHttpClient
 					if (i == triesCount)
 					{
 						_log.Log(LogLevel.Trace, _minLogLevel, response.ErrorException,
-							"Returning failed http request with hash {RequestHash}. Response: {Response}", hash, response.Content);
+							"Returning failed http request with hash {RequestHash}. Status: {StatusCode}. Response: {Response}",
+							hash, response.StatusCode, response.Content);
 						return response;
 					}
 
 					_log.Log(LogLevel.Warning, _minLogLevel, response.ErrorException,
-						"Failed to execute http request with hash {RequestHash}. Response: {Response}", hash, response.Content);
+						"Failed to execute http request with hash {RequestHash}. Status: {StatusCode}. Response: {Response}",
+						hash, response.StatusCode, response.Content);
 					continue;
 				}
 
